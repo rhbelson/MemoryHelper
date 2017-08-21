@@ -31,7 +31,9 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Card vocab={this.state.currentCard.vocab}/>
+        <Card vocab={this.state.currentCard.vocab}
+              definition={this.state.currentCard.definition}
+              />
       </div>
     );
   }

@@ -5,13 +5,13 @@ const Card = (props) => (
   <div className="card-container">
     <div className="card">
       <div className="front">
-        <div className="vocab">Code Vocab</div>
+        <div className="vocab">{props.vocab}</div>
       </div>
       <div className="back">
-        <div className="definition">Code definition</div>
+        <div className="definition">{props.definition}</div>
       </div>
     </div>
   </div>
 )
 
-export default Card 
+export default Card
