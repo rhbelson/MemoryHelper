@@ -3,7 +3,7 @@ import './App.css';
 import Card from './Card/Card';
 
 class App extends Component {
-  consstructor(props){
+  constructor(props){
     super(props);
 
     this.state = {
@@ -26,11 +26,12 @@ class App extends Component {
 
   getRandomCard(currentCards){
     var card = currentCards[Math.floor(Math.random() * currentCards.length)]
+    return(card);
   }
   render() {
     return (
       <div className="App">
-        <Card/>
+        <Card vocab={this.state.currentCard.vocab}/>
       </div>
     );
   }
