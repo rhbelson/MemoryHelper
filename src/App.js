@@ -2,18 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 import Card from './Card/Card';
 import Draw from './Draw/Draw';
+import firebase from 'firebase/app';
+import 'firebase/database';
+
+import { DB_CONFIG } from './Config/Firebase/db_config';
 
 class App extends Component {
   constructor(props){
     super(props);
 
+    this.app = firebase.initializeApp(DB_CONFIG);
+    this.database = this.app.database().ref().child('cards');
     this.updateCard = this.updateCard.bind(this);
 
     this.state = {
-      cards: [
-        {id: 1, vocab: "Vocabulary", definition: "Definition"},
-        {id: 2, vocab: "Vocabulary_2", definition: "Definition_2"}
-      ],
+      cards: [],
       currentCard: {}
     }
   }
@@ -33,7 +36,10 @@ class App extends Component {
   }
 
   updateCard(){
-    console.log("New Card");
+    const currentCards = this.state.cards;
+    this.setState({
+      currentCard: this.getRandomCard(currentCards)
+    })
   }
   render() {
     return (

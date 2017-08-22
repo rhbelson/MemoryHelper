@@ -1,0 +1,19 @@
+{
+  "cards": [
+    {
+      "id": 1,
+      "vocab": "DOM",
+      "definition": "Document Object Model"
+    },
+    {
+      "id": 2,
+      "vocab": "HTML",
+      "definition": "HyberText Markup Language"
+    },
+    {
+      "id": 3,
+      "vocab": "DocType",
+      "definition": "Declares the type of markup language the browser should expect"
+    }
+  ]
+}
