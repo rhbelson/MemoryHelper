@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import Card from './Card/Card';
 import Draw from './Draw/Draw';
+import CardForm from './Card-Form/Card-Form';
+import Add from './Add/Add';
 import firebase from 'firebase/app';
 import 'firebase/database';
 
@@ -13,6 +15,8 @@ class App extends Component {
 
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('cards');
+    this.addCard = this.addCard.bind(this);
+    // this.deleteCard = this.deleteCard.bind(this);
     this.updateCard = this.updateCard.bind(this);
 
     this.state = {
@@ -35,6 +39,16 @@ class App extends Component {
         currentCard: this.getRandomCard(currentCards)
       })
    })
+   this.database.on('child_removed', snap => {
+     for(var i=0; i < currentCards.length; i++){
+       if(currentCards[i].id === snap.key){
+         currentCards.splice(i, 1);
+       }
+     }
+     this.setState({
+       cards: currentCards
+     })
+   })
   }
 
   getRandomCard(currentCards){
@@ -48,6 +62,15 @@ class App extends Component {
       currentCard: this.getRandomCard(currentCards)
     })
   }
+
+  addCard(cards){
+    this.database.push().set({currentCards: cards});
+  }
+
+  removeCard(id){
+    this.database.child(id).remove();
+  }
+
   render() {
     return (
       <div className="App">
@@ -56,8 +79,17 @@ class App extends Component {
                 definition={this.state.currentCard.definition}
                 />
         </div >
+
         <div className="buttonRow">
           <Draw drawCard={this.updateCard}/>
+        </div>
+
+        <div className="formRow">
+          <CardForm form={this.state.currentCard.CardForm}/>
+        </div>
+
+        <div className="addButton">
+          <Add addCard={this.addCard}/>
         </div>
       </div>
     );
