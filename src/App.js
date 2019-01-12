@@ -7,12 +7,17 @@ import Add from './Add/Add';
 import firebase from 'firebase/app';
 import 'firebase/database';
 
-import { DB_CONFIG } from './Config/Firebase/db_config';
-
 class App extends Component {
   constructor(props){
     super(props);
-
+    const DB_CONFIG = {
+      apiKey: "AIzaSyDwoaVL_68rhSf_fbbMIdUNVaqtVQfFoWE",
+      authDomain: "memoryhelper-27244.firebaseapp.com",
+      databaseURL: "https://memoryhelper-27244.firebaseio.com",
+      projectId: "memoryhelper-27244",
+      storageBucket: "memoryhelper-27244.appspot.com",
+      messagingSenderId: "468773177726"
+    };
     this.app = firebase.initializeApp(DB_CONFIG);
     this.database = this.app.database().ref().child('cards');
     this.addCard = this.addCard.bind(this);
