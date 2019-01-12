@@ -12,7 +12,7 @@ import { Row, Button, Col, Container } from 'reactstrap'
 class Reminder extends Component {
   render() {
     return (
-        <Row style = {{paddingLeft: '40px', marginBottom: '5px', border: '1px solid black', alignItems: 'center', width: '500px', alignItems: 'center'}}>
+        <Row style = {{paddingLeft: '40px', marginBottom: '5px', borderRadius: '30', border: '1px solid lightGray', alignItems: 'center', width: '500px', alignItems: 'center'}}>
           <Col> {this.props.remind.text} </Col>
           <Col><em>{moment(new Date(this.props.remind.dueDate)).fromNow()}</em></Col>
           <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} onClick = {this.props.del}> &#x2715; </div></Col>
