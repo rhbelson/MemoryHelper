@@ -7,6 +7,8 @@ import Add from './Add/Add';
 import firebase from 'firebase/app';
 import 'firebase/database';
 
+// import { DB_CONFIG } from './firebase';
+
 class App extends Component {
   constructor(props){
     super(props);
