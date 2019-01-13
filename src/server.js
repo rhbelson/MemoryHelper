@@ -13,28 +13,32 @@ express_app.use('/', express.static('public'));
 express_app.post('/api/messages', (req, res) => {
     res.header('Content-Type', 'application/json');
     console.log(req.body);
-    // create deate object from post request
-    const sendTime = new Date(req.body.dueDate);
+    res.send(scheduleText(req.body));
+});
+
+const scheduleText = function(body) {
+    // create date object from post request
+    const sendTime = new Date(body.dueDate);
     // schedule text message send
     scheduler.scheduleJob(sendTime, function() {
         // send text message with twilo service
         client.messages
             .create({
                 from: "+17574186902",
-                to: req.body.to,
-                body: req.body.message
+                to: body.to,
+                body: body.message
             })
             .then(() => {
-                res.send(JSON.stringify({success: true}));
-                console.log('message successfully sent.')
+                console.log(`message to ${body.to} successfully sent.`);
+                return JSON.stringify({success: true});
             })
             .catch(err => {
                 console.log('hit error');
                 console.log(err);
-                res.send(JSON.stringify({success: false}));
+                return JSON.stringify({success: false});
             });
     });
-    console.log('message scheduled');
-});
+    console.log('Text scheduled.');
+};
 
 express_app.listen(3002);
