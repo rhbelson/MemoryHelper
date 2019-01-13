@@ -22,10 +22,6 @@ class Reminder extends Component {
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators({addReminder}, dispatch);
-// }
-
 function mapStateToProps(state) {
   return {
     reminders: state

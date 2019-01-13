@@ -6,7 +6,7 @@ import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Row, Button, Col, Container } from 'reactstrap'
+import { Row, Button, Col, Container, Navbar } from 'reactstrap'
 import Reminder from './Reminder'
 
 
@@ -15,7 +15,8 @@ class App extends Component {
     super(props);
     this.state = {
       text: '',
-      dueDate: ''
+      dueDate: '',
+      phone: ''
     };
   }
   notify = () => toast("Wow so easy !");
@@ -41,7 +42,7 @@ class App extends Component {
     this.setState({text: '', dueDate: ''});
     toast('Reminder Set', {
       position: "top-right",
-      autoClose: 50,
+      autoClose: 500,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -99,38 +100,54 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <div className="title">
-          Memory Helper
-        </div>
+      <div>
+      <Container style = {{paddingTop:'10px', backgroundColor: '#82d6f2', display: 'flex',  justifyContent:'center', alignItems: 'center', width: '100%'}}>
+        <h2 > Memory Help </h2>
+      </Container>
 
+
+      <div className="App">
         <div className="form-inline reminder-form">
           <div className="form-group">
             <input
+              style ={{height: '35px', borderRadius: '10px'}}
               className="form-control"
               placeholder="I have to..."
               value = {this.state.text}
               onChange = {event => this.setState({text: event.target.value})}
             />
+
             <input
+              style ={{height: '35px', borderRadius: '10px'}}
+              className="form-control"
+              placeholder="Your Phone Number"
+              value = {this.state.phone}
+              onChange = {event => this.setState({phone: event.target.value})}
+            />
+            <div style = {{textAlign: 'center'}}> Enter Due Date: </div>
+            <input
+              style ={{height: '35px', borderRadius: '10px'}}
               className="form-control"
               type="datetime-local"
+              placeholder="Due Date"
               value={this.state.dueDate}
               onChange = {event => this.setState({dueDate: event.target.value})}
             />
-            <div>
-            <button
+            <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
+            <Button
               className="btn btn-success"
               onClick = {() => {this.notify; this.sendSms(); this.addReminder()}}
+              style= {{alignItems: 'center'}}
             >
               Add Reminder
-            </button>
+            </Button>
             <ToastContainer />
             </div>
           </div>
         </div>
         { this.renderReminders() }
         {this.renderClearButton()}
+        </div>
       </div>
     );
   }
