@@ -29,7 +29,7 @@ class App extends Component {
                 Accept: 'application/JSON',
                 'Content-Type': 'application/JSON'
             },
-            body: JSON.stringify({to: "+17576606447", "message": this.state.text})
+            body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": this.state.dueDate})
         })
             .then(resp => {
                 console.log(resp)
