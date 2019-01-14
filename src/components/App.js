@@ -39,6 +39,9 @@ class App extends Component {
                 'Content-Type': 'application/JSON'
             },
             body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": this.state.dueDate})
+            // body used for testing:
+            // body: JSON.stringify({to: "7576606447", "message": `message at ${new Date().toLocaleTimeString()}`, "ts": this.state.dueDate})
+
         })
             .then(resp => {
                 console.log(resp)
