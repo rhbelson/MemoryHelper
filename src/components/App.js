@@ -5,7 +5,7 @@ import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Row, Button, Col, Container, Navbar } from 'reactstrap'
+import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
 import Reminder from './Reminder'
 
 
@@ -15,22 +15,25 @@ class App extends Component {
     this.state = {
       text: '',
       dueDate: '',
-      phone: ''
+      phone: '',
+      modal: false
     };
+    this.toggle = this.toggle.bind(this);
   }
+
   notify = () => toast("Wow so easy !");
+  //
+  toggle() {
+      console.log("function")
+      this.setState({modal: !this.state.modal});
+      console.log("complete")
+    }
 
   addReminder() {
-    this.props.addReminder(this.state.text, this.state.dueDate);
-    this.setState({text: '', dueDate: ''});
-    toast('Reminder Set', {
-      position: "top-right",
-      autoClose: 500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-      });
+    console.log("function2")
+    this.props.addReminder(this.state.text, this.state.dueDate, this.state.phone);
+    this.setState({text: '', dueDate: '', phone: ''});
+    console.log("complete2")
   }
 
   deleteReminder(id){
@@ -82,9 +85,12 @@ class App extends Component {
   }
 
   render() {
+
+
     return (
       <div>
-      <Container style = {{paddingTop:'10px', backgroundColor: '#82d6f2', display: 'flex',  justifyContent:'center', alignItems: 'center', width: '100%'}}>
+      <Container style = {{paddingTop:'10px', backgroundColor: '#82d6f2', display: 'flex',
+        justifyContent:'center', alignItems: 'center', width: '100%'}}>
         <h2 > Memory Help </h2>
       </Container>
 
@@ -120,15 +126,30 @@ class App extends Component {
             <Button
               className="btn btn-success"
               style= {{alignItems: 'center'}}
-              onClick = {() => {this.notify; this.addReminder()}}
+              onClick = {() => {this.toggle(), this.addReminder()}}
             >
               Add Reminder
             </Button>
+
+            <div>
+              <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                <ModalHeader toggle={this.toggle}>Make Your FlashCards!</ModalHeader>
+                <ModalBody>
+                  Insert vocab table here
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.toggle}>Confirm</Button>{' '}
+                  <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                </ModalFooter>
+              </Modal>
+            </div>
+
+
             <ToastContainer />
             </div>
           </div>
         </div>
-        { this.renderReminders() }
+        {this.renderReminders()}
         {this.renderClearButton()}
         </div>
       </div>

@@ -5,10 +5,10 @@
   "private": true,
   "dependencies": {
     "gh-pages": "^1.0.0",
-    "moment": "^2.18.1",
-    "react": "^15.6.2",
+    "moment": "^2.23.0",
+    "react": "^16.7.0",
     "react-bootstrap": "^0.31.1",
-    "react-dom": "^15.6.2",
+    "react-dom": "^16.7.0",
     "react-notifications": "^1.4.3",
     "react-notifications-component": "^1.0.1",
     "react-redux": "^5.0.5",

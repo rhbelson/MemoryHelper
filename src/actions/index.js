@@ -1,10 +1,12 @@
-import { ADD_REMINDER, DELETE_REMINDER, DELETE_ALL_REMINDERS } from '../constants';
+import { ADD_REMINDER, DELETE_REMINDER, DELETE_ALL_REMINDERS, TOGGLE_MODAL } from '../constants';
 
-export const addReminder = (text, dueDate) => {
+export const addReminder = (text, dueDate, phone, modal) => {
   const action = {
     type: ADD_REMINDER,
     text,
-    dueDate
+    dueDate,
+    phone,
+    modal
   };
   return action;
 }
