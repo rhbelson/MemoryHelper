@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
 import Reminder from './Reminder'
+import MyForm from './Form'
 
 
 class App extends Component {
@@ -152,7 +153,7 @@ class App extends Component {
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>Make Your FlashCards!</ModalHeader>
                 <ModalBody>
-                  Insert vocab table here
+                  <MyForm />
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={this.toggle}>Confirm</Button>{' '}

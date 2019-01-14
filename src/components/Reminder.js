@@ -28,4 +28,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, {addReminder, deleteReminder, deleteAllReminders})(Reminder);
+export default connect(mapStateToProps, {addReminder, deleteReminder, deleteAllReminders })(Reminder);
