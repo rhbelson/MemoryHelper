@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import 'whatwg-fetch';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
-import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
@@ -26,9 +25,9 @@ class App extends Component {
   notify = () => toast("Wow so easy !");
   //
   toggle() {
-      console.log("function")
+      console.log("Entered modal toggle function");
       this.setState({modal: !this.state.modal});
-      console.log("complete")
+      console.log("Completed modal toggle")
     }
 
   sendSms = () => {
@@ -47,10 +46,10 @@ class App extends Component {
   };
 
   addReminder() {
-    console.log("function2")
+    console.log("Entered addReminder function");
     this.props.addReminder(this.state.text, this.state.dueDate, this.state.phone);
     this.setState({text: '', dueDate: '', phone: ''});
-    console.log("complete2")
+    console.log("Completed addReminder functioned")
   }
 
   deleteReminder(id){
@@ -142,9 +141,9 @@ class App extends Component {
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
             <Button
               className="btn btn-success"
-              onClick = {() => {this.notify; this.sendSms(); this.addReminder()}}
+              onClick = {() => {this.notify(); this.sendSms(); this.addReminder()}}
               style= {{alignItems: 'center'}}
-              onClick = {() => {this.toggle(), this.addReminder()}}
+              onClick = {() => {this.toggle(); this.sendSms(); this.addReminder()}}
             >
               Add Reminder
             </Button>
