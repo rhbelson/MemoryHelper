@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import 'whatwg-fetch';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import moment from 'moment';
@@ -28,6 +29,21 @@ class App extends Component {
       this.setState({modal: !this.state.modal});
       console.log("complete")
     }
+
+  sendSms = () => {
+        console.log('entered sendSMS');
+        fetch('/api/messages', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/JSON',
+                'Content-Type': 'application/JSON'
+            },
+            body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": this.state.dueDate})
+        })
+            .then(resp => {
+                console.log(resp)
+            })
+  };
 
   addReminder() {
     console.log("function2")
@@ -125,6 +141,7 @@ class App extends Component {
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
             <Button
               className="btn btn-success"
+              onClick = {() => {this.notify; this.sendSms(); this.addReminder()}}
               style= {{alignItems: 'center'}}
               onClick = {() => {this.toggle(), this.addReminder()}}
             >
