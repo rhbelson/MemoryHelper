@@ -5,10 +5,17 @@ import 'whatwg-fetch';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody } from 'reactstrap'
+import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody, Navbar, NavbarToggler, NavbarBrand, Nav,NavItem, NavLink } from 'reactstrap'
 import Reminder from './Reminder'
 import MyForm from './Form'
+import 'bootstrap/dist/css/bootstrap.min.css';
+import WebFont from 'webfontloader';
 
+  WebFont.load({
+  google: {
+    families: ['Titillium Web:300,400,700', 'sans-serif']
+  }
+});
 
 class App extends Component {
   constructor(props){
@@ -23,6 +30,10 @@ class App extends Component {
   }
 
   notify = () => toast("Wow so easy !");
+
+
+
+
   //
   toggle() {
       console.log("Entered modal toggle function");
@@ -68,7 +79,7 @@ class App extends Component {
     if(reminders.length !== 0){
       return(
         <Button
-          style ={{marginTop: '10px'}}
+          style ={{marginTop: '10px', backgroundColor:'#F72C25'}}
           color = 'danger'
           onClick = {() => this.deleteAllReminders()}>
           Clear Reminders
@@ -92,7 +103,7 @@ class App extends Component {
         {
           reminders.map((reminder, i) => {
             return (
-              <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}} key={i}>
+              <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center',marginTop:'2%'}} key={i}>
                 <Reminder del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
               </Row>
             )
@@ -107,12 +118,10 @@ class App extends Component {
 
 
     return (
-      <div>
-      <Container style = {{paddingTop:'10px', backgroundColor: '#82d6f2', display: 'flex',
-        justifyContent:'center', alignItems: 'center', width: '100%'}}>
-        <h2 > Memory Help </h2>
-      </Container>
-
+      <div style={{backgroundColor:"#FCF6B1"}}>
+      <Navbar color="dark" light expand="md">
+          <NavbarBrand style={{color:"#ffffff", fontFamily:"Archivo, Sans-Serif", fontWeight:'bold'}} href="/">MemoryHelper</NavbarBrand>
+      </Navbar>
 
       <div className="App">
         <div className="form-inline reminder-form">
@@ -143,9 +152,9 @@ class App extends Component {
             />
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
             <Button
-              className="btn btn-success"
+              
               onClick = {() => {this.notify(); this.sendSms(); this.addReminder()}}
-              style= {{alignItems: 'center'}}
+              style= {{alignItems: 'center', backgroundColor:"#F7B32B"}}
               onClick = {() => {this.toggle(); this.sendSms(); this.addReminder()}}
             >
               Add Reminder

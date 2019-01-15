@@ -5,11 +5,12 @@
   "private": true,
   "dependencies": {
     "body-parser": "^1.18.3",
+    "bootstrap": "^4.2.1",
     "express": "^4.16.4",
     "express-pino-logger": "^4.0.0",
     "gh-pages": "^1.0.0",
-    "react": "^16.7.0",
     "moment": "^2.23.0",
+    "react": "^16.7.0",
     "react-bootstrap": "^0.31.1",
     "react-dom": "^16.7.0",
     "react-notifications": "^1.4.3",
@@ -22,6 +23,8 @@
     "redux": "^3.7.2",
     "sfcookies": "^1.0.2",
     "twilio": "^3.27.1",
+    "typeface-archivo": "0.0.54",
+    "webfontloader": "^1.6.28",
     "whatwg-fetch": "^3.0.0"
   },
   "scripts": {
