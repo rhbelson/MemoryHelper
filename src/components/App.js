@@ -7,6 +7,13 @@ import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody
 import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import WebFont from 'webfontloader';
+
+WebFont.load({
+  google: {
+    families: ['Titillium Web:300,400,700', 'sans-serif','Purple Purse','Karla']
+  }
+});
 
  
 
@@ -67,8 +74,8 @@ class App extends Component {
     const { reminders } = this.props;
     if(reminders.length !== 0){
       return(
-        <Button
-          style ={{marginTop: '10px', backgroundColor:'#F72C25'}}
+        <Button 
+          style ={{marginTop: '10px', backgroundColor:'#F72C25',fontFamily:'Karla'}}
           color = 'danger'
           onClick = {() => this.deleteAllReminders()}>
           Clear Reminders
@@ -77,7 +84,7 @@ class App extends Component {
     }
     else{
       return(
-        <Button style ={{marginTop: '10px'}} color = 'danger' >
+        <Button style ={{marginTop: '10px',fontFamily:'Karla'}} color = 'danger' >
           Clear Reminders
         </Button>
       );
@@ -109,11 +116,11 @@ class App extends Component {
     return (
       <div style={{backgroundColor:"#FCF6B1"}}>
       <Navbar color="dark" light expand="md">
-          <NavbarBrand style={{color:"#ffffff", fontFamily:"Archivo, Sans-Serif", fontWeight:'bold'}} href="/">MemoryHelper</NavbarBrand>
+          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
       </Navbar>
 
       <div className="App">
-        <div className="form-inline reminder-form">
+        <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
             <input
               style ={{height: '35px', borderRadius: '10px'}}
