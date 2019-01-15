@@ -6,3 +6,5 @@ import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Row, Button, Col } from 'reactstrap'
+@import url('https://fonts.googleapis.com/css?family=Archivo');
+
