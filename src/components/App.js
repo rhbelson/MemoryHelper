@@ -17,17 +17,19 @@ class App extends Component {
       text: '',
       dueDate: '',
       phone: '',
-      modal: false
+      modal: false,
+      errorModal: false
     };
     this.toggle = this.toggle.bind(this);
+    this.toggleErrorModal = this.toggleErrorModal.bind(this)
   }
-
-  notify = () => toast("Wow so easy !");
   //
   toggle() {
-      console.log("Entered modal toggle function");
       this.setState({modal: !this.state.modal});
-      console.log("Completed modal toggle")
+    }
+
+  toggleErrorModal() {
+      this.setState({errorModal: !this.state.errorModal});
     }
 
   sendSms = () => {
@@ -49,10 +51,8 @@ class App extends Component {
   };
 
   addReminder() {
-    console.log("Entered addReminder function");
     this.props.addReminder(this.state.text, this.state.dueDate, this.state.phone);
     this.setState({text: '', dueDate: '', phone: ''});
-    console.log("Completed addReminder functioned")
   }
 
   deleteReminder(id){
@@ -144,12 +144,31 @@ class App extends Component {
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
             <Button
               className="btn btn-success"
-              onClick = {() => {this.notify(); this.sendSms(); this.addReminder()}}
+              onClick = {() => {
+                if(this.state.text != '' && this.state.phone != '' && this.state.dueDate != '')
+                {
+                this.toggle();
+                this.sendSms();
+                this.addReminder()
+                }
+                else
+                {
+                  this.toggleErrorModal()
+                }
+              }}
               style= {{alignItems: 'center'}}
-              onClick = {() => {this.toggle(); this.sendSms(); this.addReminder()}}
             >
               Add Reminder
             </Button>
+
+            <div>
+              <Modal isOpen={this.state.errorModal} toggle={this.toggleErrorModal}>
+                <ModalHeader toggle={this.toggleErrorModal}>Please Fill in All Fields</ModalHeader>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.toggleErrorModal}>OK</Button>{' '}
+                </ModalFooter>
+              </Modal>
+            </div>
 
             <div>
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
