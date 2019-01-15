@@ -3,19 +3,12 @@ import { connect } from 'react-redux';
 import 'whatwg-fetch';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody, Navbar, NavbarToggler, NavbarBrand, Nav,NavItem, NavLink } from 'reactstrap'
+import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody, Navbar, NavbarBrand } from 'reactstrap'
 import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import WebFont from 'webfontloader';
 
-  WebFont.load({
-  google: {
-    families: ['Titillium Web:300,400,700', 'sans-serif']
-  }
-});
+ 
 
 class App extends Component {
   constructor(props){
@@ -150,7 +143,7 @@ class App extends Component {
             <Button
               className="btn btn-success"
               onClick = {() => {
-                if(this.state.text != '' && this.state.phone != '' && this.state.dueDate != '')
+                if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== '')
                 {
                 this.toggle();
                 this.sendSms();
@@ -188,8 +181,6 @@ class App extends Component {
               </Modal>
             </div>
 
-
-            <ToastContainer />
             </div>
           </div>
         </div>
