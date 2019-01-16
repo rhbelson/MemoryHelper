@@ -30,7 +30,7 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this)
   }
-  
+
   toggle() {
       this.setState({modal: !this.state.modal});
     }
@@ -144,6 +144,12 @@ class App extends Component {
               type="datetime-local"
               placeholder="Due Date"
               value={this.state.dueDate}
+                // if(this.state.dueDate == ''){
+                //   value=moment()
+                // }
+                // else {
+                //   this.state.dueDate
+                // }
               onChange = {event => this.setState({dueDate: event.target.value})}
             />
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
