@@ -82,11 +82,11 @@ class App extends Component {
       );
     }
     else{
-      // return(
-      //   <Button style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
-      //     Clear Reminders
-      //   </Button>
-      // );
+      return(
+        <Button style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
+          Clear Reminders
+        </Button>
+      );
     }
   }
 
