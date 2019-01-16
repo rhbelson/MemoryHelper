@@ -9,7 +9,7 @@ import { Row, Col} from 'reactstrap';
 class Reminder extends Component {
   render() {
     return (
-        <Row style = {{fontFamily:"Karla", fontWeight:"bold", paddingLeft: '5px' ,marginBottom: '5px', borderRadius: '40px', border: '1px solid lightGray',  width: '95%', alignItems: 'center', backgroundColor: '#99EDCC'}}>
+        <Row style = {{fontFamily:"Karla", fontWeight:"bold", color: '#010423', paddingLeft: '5px',marginBottom: '5px', borderRadius: '40px',  width: '95%', alignItems: 'center', backgroundColor: '#b1b7fc'}}>
           <Col> {this.props.remind.text} </Col>
           <Col><em>{moment(new Date(this.props.remind.dueDate)).fromNow()}</em></Col>
           <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} onClick = {this.props.del}> &#x2715; </div></Col>

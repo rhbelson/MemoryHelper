@@ -75,19 +75,18 @@ class App extends Component {
     if(reminders.length !== 0){
       return(
         <Button
-          style ={{marginTop: '10px', backgroundColor:'#F72C25',fontFamily:'Karla'}}
-          color = 'danger'
+          style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}}
           onClick = {() => this.deleteAllReminders()}>
           Clear Reminders
         </Button>
       );
     }
     else{
-      return(
-        <Button style ={{marginTop: '10px',fontFamily:'Karla'}} color = 'danger' >
-          Clear Reminders
-        </Button>
-      );
+      // return(
+      //   <Button style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
+      //     Clear Reminders
+      //   </Button>
+      // );
     }
   }
 
@@ -154,7 +153,7 @@ class App extends Component {
             />
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
             <Button
-              className="btn btn-success"
+              // className="btn btn-success"
               onClick = {() => {
                 if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== '')
                 {
@@ -167,7 +166,7 @@ class App extends Component {
                   this.toggleErrorModal()
                 }
               }}
-              style= {{alignItems: 'center', marginTop: '5px'}}
+              style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
             >
               Add Reminder
             </Button>
