@@ -12,7 +12,7 @@ import WebFont from 'webfontloader';
 class Reminder extends Component {
   render() {
     return (
-        <Row style = {{fontFamily:"Archivo, Sans-Serif", fontWeight:"bold", paddingLeft: '40px', paddingTop: '3px',paddingBottom:'3px' ,marginBottom: '5px', borderRadius: '40px', border: '1px solid lightGray', alignItems: 'center', width: '90%', alignItems: 'center', backgroundColor: '#99EDCC'}}>
+        <Row style = {{fontFamily:"Archivo, Sans-Serif", fontWeight:"bold", paddingLeft: '20px', paddingTop: '3px',paddingBottom:'3px' ,marginBottom: '5px', borderRadius: '40px', border: '1px solid lightGray', alignItems: 'center', width: '95%', alignItems: 'center', backgroundColor: '#99EDCC'}}>
           <Col> {this.props.remind.text} </Col>
           <Col><em>{moment(new Date(this.props.remind.dueDate)).fromNow()}</em></Col>
           <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} onClick = {this.props.del}> &#x2715; </div></Col>

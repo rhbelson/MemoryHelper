@@ -30,7 +30,7 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this)
   }
-  
+
   //
   toggle() {
       this.setState({modal: !this.state.modal});
@@ -115,7 +115,7 @@ class App extends Component {
 
 
     return (
-      <div style={{backgroundColor:"#FCF6B1"}}>
+      <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
       <Navbar color="dark" light expand="md">
           <NavbarBrand style={{color:"#ffffff", fontFamily:"Archivo, Sans-Serif", fontWeight:'bold'}} href="/">MemoryHelper</NavbarBrand>
       </Navbar>
@@ -162,7 +162,7 @@ class App extends Component {
                   this.toggleErrorModal()
                 }
               }}
-              style= {{alignItems: 'center'}}
+              style= {{alignItems: 'center', marginTop: '5px'}}
             >
               Add Reminder
             </Button>
@@ -197,6 +197,7 @@ class App extends Component {
         {this.renderReminders()}
         {this.renderClearButton()}
         </div>
+
       </div>
     );
   }
