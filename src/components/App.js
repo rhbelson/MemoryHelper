@@ -3,19 +3,19 @@ import { connect } from 'react-redux';
 import 'whatwg-fetch';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody, Navbar, NavbarToggler, NavbarBrand, Nav,NavItem, NavLink } from 'reactstrap'
+import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody, Navbar, NavbarBrand } from 'reactstrap'
 import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
 
-  WebFont.load({
+WebFont.load({
   google: {
-    families: ['Titillium Web:300,400,700', 'sans-serif']
+    families: ['Titillium Web:300,400,700', 'sans-serif','Purple Purse','Karla']
   }
 });
+
+
 
 class App extends Component {
   constructor(props){
@@ -30,8 +30,7 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this)
   }
-
-  //
+  
   toggle() {
       this.setState({modal: !this.state.modal});
     }
@@ -76,7 +75,7 @@ class App extends Component {
     if(reminders.length !== 0){
       return(
         <Button
-          style ={{marginTop: '10px', backgroundColor:'#F72C25'}}
+          style ={{marginTop: '10px', backgroundColor:'#F72C25',fontFamily:'Karla'}}
           color = 'danger'
           onClick = {() => this.deleteAllReminders()}>
           Clear Reminders
@@ -85,7 +84,7 @@ class App extends Component {
     }
     else{
       return(
-        <Button style ={{marginTop: '10px'}} color = 'danger' >
+        <Button style ={{marginTop: '10px',fontFamily:'Karla'}} color = 'danger' >
           Clear Reminders
         </Button>
       );
@@ -117,11 +116,11 @@ class App extends Component {
     return (
       <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
       <Navbar color="dark" light expand="md">
-          <NavbarBrand style={{color:"#ffffff", fontFamily:"Archivo, Sans-Serif", fontWeight:'bold'}} href="/">MemoryHelper</NavbarBrand>
+          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
       </Navbar>
 
       <div className="App">
-        <div className="form-inline reminder-form">
+        <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
             <input
               style ={{height: '35px', borderRadius: '10px'}}
@@ -151,7 +150,7 @@ class App extends Component {
             <Button
               className="btn btn-success"
               onClick = {() => {
-                if(this.state.text != '' && this.state.phone != '' && this.state.dueDate != '')
+                if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== '')
                 {
                 this.toggle();
                 this.sendSms();
@@ -189,8 +188,6 @@ class App extends Component {
               </Modal>
             </div>
 
-
-            <ToastContainer />
             </div>
           </div>
         </div>

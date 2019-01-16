@@ -3,9 +3,7 @@ import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import moment from 'moment';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { Row, Button, Col, Container, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import { Row, Button, Col, Form, FormGroup, Input} from 'reactstrap'
 
 class MyForm extends Component {
   constructor(props){
