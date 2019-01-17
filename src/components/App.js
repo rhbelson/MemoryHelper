@@ -57,6 +57,17 @@ class App extends Component {
             })
   };
 
+
+  //Lyon to write function that takes in due date of task as input, and outputs 4 Datetime objects for times to schedule Twilio messages
+  scheduleTimes(time) {
+    let t=time;
+  }
+
+//Function that schedules Twilio messages given output determined by scheduleTimes function (calls sendSms function)
+  scheduleMessages() {
+    //To Do
+  }
+
   addReminder() {
     this.props.addReminder(this.state.text, this.state.dueDate, this.state.phone);
     this.setState({text: '', dueDate: '', phone: ''});
