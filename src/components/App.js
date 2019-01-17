@@ -8,6 +8,11 @@ import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
+import Logo from './logo.png';
+import Logo2 from './logo2.png';
+import StudyPic from './studying.png';
+import Tilt from 'react-tilt';
+// import Rotation from 'react-rotation';
 
 WebFont.load({
   google: {
@@ -83,7 +88,7 @@ class App extends Component {
     }
     else{
       return(
-        <Button style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
+        <Button block style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
           Clear Reminders
         </Button>
       );
@@ -115,11 +120,16 @@ class App extends Component {
     return (
       <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
       <Navbar color="dark" light expand="md">
-          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
+          <NavbarBrand style={{color:"#ffffff", fontFamily:"Karla",marginLeft:"20%",fontSize:"30px"}} href="/">MemoryHelper</NavbarBrand>
       </Navbar>
 
       <div className="App">
+      <Tilt className="Tilt" options={{ max : 180, perspective: 1000, speed:300, transition:true,easing: "cubic-bezier(.03,.98,.52,.99)" }} >
+    <div className="Tilt-inner"> <img src={StudyPic} alt="logo" style={{width:"130px",animation:"spin infinite 20s linear"}}/> </div>
+    </Tilt>
+      
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
+
           <div className="form-group">
             <input
               style ={{height: '35px', borderRadius: '10px'}}
@@ -152,7 +162,7 @@ class App extends Component {
               onChange = {event => this.setState({dueDate: event.target.value})}
             />
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
-            <Button
+            <Button block
               // className="btn btn-success"
               onClick = {() => {
                 if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== '')
@@ -166,7 +176,7 @@ class App extends Component {
                   this.toggleErrorModal()
                 }
               }}
-              style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
+              style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506', borderRadius:"5px"}}
             >
               Add Reminder
             </Button>

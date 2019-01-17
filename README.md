@@ -5,3 +5,6 @@ Team Red Team Project: MemoryHelper
 
 Requirements:
 Make sure you have versions of react and react-dom over 16.0.0.
+
+
+Skeleton provided by Arjun Joshi: https://github.com/Aj1402/reminderapp-reactjs
