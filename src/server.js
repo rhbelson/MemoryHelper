@@ -10,7 +10,7 @@ const client = require('twilio')('ACcb2bbf1ec4e8cd9b85fc7e4420f2ee3e', '08119320
 express_app.use(bodyParser.urlencoded({ extended: false }));
 express_app.use(bodyParser.json());
 
-let scheduled_tasks = new Set();
+let scheduledTasks = new Set();
 
 express_app.use('/', express.static('public'));
 
@@ -22,17 +22,17 @@ express_app.post('/api/messages', (req, res) => {
 });
 
 const scheduleText = function(body) {
+
     // create date object from post request
     const sendTime = new Date(body.dueDate);
     const task_id = crypto.randomBytes(20).toString('hex');
-    scheduled_tasks.add(task_id);
+    scheduledTasks.add(task_id);
 
-    // run job on specific node clustor
+    // run job on specific node cluster
     if (cluster.isMaster) {
         // schedule text message send
         const scheduled_task = scheduler.scheduleJob(sendTime, function () {
-
-            if (scheduled_tasks.has(task_id)) {
+            if (scheduledTasks.has(task_id)) {
                 // send text message with twilo service
                 client.messages
                     .create({
@@ -54,10 +54,24 @@ const scheduleText = function(body) {
             }
 
         });
-
         console.log('Text scheduled.');
         return JSON.stringify({success: true});
     }
 };
 
-express_app.listen(3002);
+express_app.portNumber = 3002;
+function startServer(port) {
+    express_app.portNumber = port;
+    express_app.listen(port, () => {
+        console.log("server is running on port: " + express_app.portNumber);
+    }).on('error', function (err) {
+        if(err.errno === 'EADDRINUSE') {
+            console.log(`----- Port ${express_app.portNumber} is busy, trying with port ${express_app.portNumber + 1} -----`);
+            startServer(express_app.portNumber + 1)
+        } else {
+            console.log(err);
+        }
+    });
+}
+
+startServer(express_app.portNumber);

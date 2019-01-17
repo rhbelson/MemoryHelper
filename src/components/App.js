@@ -122,7 +122,7 @@ class App extends Component {
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
             <input
-              style ={{height: '35px', borderRadius: '10px'}}
+              style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
               className="form-control"
               placeholder="I have to..."
               value = {this.state.text}
@@ -130,7 +130,7 @@ class App extends Component {
             />
 
             <input
-              style ={{height: '35px', borderRadius: '10px'}}
+              style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
               className="form-control"
               placeholder="Your Phone Number"
               value = {this.state.phone}
