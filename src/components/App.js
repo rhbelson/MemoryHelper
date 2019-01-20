@@ -92,13 +92,13 @@ class App extends Component {
         </Button>
       );
     }
-    else{
-      return(
-        <Button style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
-          Clear Reminders
-        </Button>
-      );
-    }
+    // else{
+    //   return(
+    //     <Button style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}} >
+    //       Clear Reminders
+    //     </Button>
+    //   );
+    // }
   }
 
   renderReminders() {
