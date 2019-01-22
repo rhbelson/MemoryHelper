@@ -105,6 +105,13 @@ class App extends Component {
   };
 
 
+
+  incrementPoints(num_points) {
+    let currentPoints=this.state.points;
+    currentPoints=currentPoints+num_points;
+    this.setState({points: currentPoints});
+  }
+
   //Lyon to write function that takes in due date of task as input, and outputs 4 Datetime objects for times to schedule Twilio messages
   scheduleTimes(time) {
     let t=time;
@@ -118,6 +125,7 @@ class App extends Component {
   addReminder() {
     this.props.addReminder(this.state.text, this.state.dueDate, this.state.phone);
     this.setState({text: '', dueDate: '', phone: ''});
+    this.incrementPoints(5);
   }
 
   deleteReminder(id){
