@@ -9,12 +9,14 @@ import { Row,
          Container,
          Modal, ModalHeader, ModalFooter, ModalBody,
          Navbar, NavbarBrand, NavItem } from 'reactstrap'
+import { toast } from 'react-toastify';
 import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
 import firebase from 'firebase';
 import './card.css';
+
 
 WebFont.load({
   google: {
@@ -103,7 +105,6 @@ class App extends Component {
                 console.log(resp)
             })
   };
-
 
 
   incrementPoints(num_points) {
