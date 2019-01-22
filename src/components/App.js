@@ -8,7 +8,7 @@ import { Row,
          Col,
          Container,
          Modal, ModalHeader, ModalFooter, ModalBody,
-         Navbar, NavbarBrand, NavItem } from 'reactstrap'
+         Navbar, NavbarBrand, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { toast } from 'react-toastify';
 import Reminder from './Reminder'
 import MyForm from './Form'
@@ -16,6 +16,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
 import firebase from 'firebase';
 import './card.css';
+import { MdAlarm } from 'react-icons/md';
 
 
 WebFont.load({
@@ -46,10 +47,13 @@ class App extends Component {
       phone: '',
       modal: false,
       errorModal: false,
-      points: 0
+      points: 0,
+      dropdownOpen:false,
+      selectedInterval: 'Ebbinghaus'
     };
     this.toggle = this.toggle.bind(this);
-    this.toggleErrorModal = this.toggleErrorModal.bind(this)
+    this.toggleDropdown=this.toggleDropdown.bind(this);
+    this.toggleErrorModal = this.toggleErrorModal.bind(this);
     this.count = 0;
   }
 
@@ -107,10 +111,19 @@ class App extends Component {
   };
 
 
+  //Increment Points in Header
   incrementPoints(num_points) {
     let currentPoints=this.state.points;
     currentPoints=currentPoints+num_points;
     this.setState({points: currentPoints});
+  }
+
+
+//Toggle Dropdown to select interval reminder
+  toggleDropdown() {
+    this.setState(prevState => ({
+      dropdownOpen: !prevState.dropdownOpen
+    }));
   }
 
   //Lyon to write function that takes in due date of task as input, and outputs 4 Datetime objects for times to schedule Twilio messages
@@ -256,6 +269,19 @@ class App extends Component {
             >
               Add Reminder
             </Button>
+
+            <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+            <DropdownToggle caret>
+              <MdAlarm/> Edit Timer
+            </DropdownToggle>
+            <DropdownMenu>
+              <DropdownItem header>Choose Your Reminder Interval</DropdownItem>
+              <DropdownItem>Ebbinghaus (Default)</DropdownItem>
+              <DropdownItem>Daily</DropdownItem>
+              <DropdownItem>Weekly</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
+
 
             <div>
               <Modal isOpen={this.state.errorModal} toggle={this.toggleErrorModal}>
