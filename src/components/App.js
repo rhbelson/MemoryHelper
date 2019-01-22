@@ -114,8 +114,17 @@ class App extends Component {
   }
 
   //Lyon to write function that takes in due date of task as input, and outputs 4 Datetime objects for times to schedule Twilio messages
-  scheduleTimes(time) {
-    let t=time;
+  scheduleTimes(givendate) {
+    var date = new Date();
+    var given = new Date(givendate);
+    var timeleft = given.getTime() - date.getTime();
+    var remindertimes = [timeleft / 16];
+    remindertimes.push(timeleft / 8);
+    remindertimes.push(timeleft / 4);
+    remindertimes.push(timeleft / 2);
+    //var wantedtime = givendate.getTime();
+    return remindertimes;
+
   }
 
 //Function that schedules Twilio messages given output determined by scheduleTimes function (calls sendSms function)
