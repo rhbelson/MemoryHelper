@@ -21,6 +21,7 @@
     "react-notifications-component": "^1.0.1",
     "react-redux": "^5.1.1",
     "react-scripts": "1.0.9",
+    "react-tilt": "^0.1.4",
     "react-toastify": "^4.5.2",
     "react-toasts": "^2.0.14",
     "reactstrap": "^7.0.2",
