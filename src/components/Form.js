@@ -37,8 +37,8 @@ deleteRow() {
           <FormGroup>
           {this.state.rows.map((row, i) => {
           return <Row key={i}>
-            <Col><Input id = "Vocab" type="text" placeholder="Term" /></Col>
-            <Col ><Input id = "Definition" type="text" placeholder="Definition" /></Col>
+            <Col><Input id = "Vocab" type="text" placeholder="Question" /></Col>
+            <Col ><Input id = "Definition" type="text" placeholder="Answer" /></Col>
           </Row>}
         )}
           </FormGroup>

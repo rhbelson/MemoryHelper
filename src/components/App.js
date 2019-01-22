@@ -11,6 +11,7 @@ import { Row,
          Navbar, NavbarBrand, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
 import { toast } from 'react-toastify';
 import Reminder from './Reminder'
+import Questions from './Questions'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
@@ -317,6 +318,9 @@ class App extends Component {
         {this.renderReminders()}
         {this.renderClearButton()}
         </div>
+
+        <Questions/>
+
       </div>
     );
   }
