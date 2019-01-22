@@ -3,20 +3,29 @@ import moment from 'moment';
 import { Row, Col} from 'reactstrap';
 import {MdEdit} from 'react-icons/md';
 import { Jumbotron, Button } from 'reactstrap';
+import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
+import WebFont from 'webfontloader';
 
+WebFont.load({
+  google: {
+    families: ['Titillium Web:300,400,700', 'sans-serif','Purple Purse','Karla']
+  }
+});
 
 class Question extends Component {
   render() {
     return (
         <div>
-      <Jumbotron>
-        <h1 className="display-3">Question Time</h1>
-        <p className="lead">Practice the flashcards you learned here!</p>
-        <hr className="my-2" />
-        <p>Question: What is the capital of Illinois?</p>
-        <p className="lead">
-          <Button color="primary">Submit</Button>
-        </p>
+      <Jumbotron style={{width:"50%",marginLeft:"25%",fontStyle:"Karla"}}>
+        <p style={{textAlign: "center",fontWeight:"bold"}}>Question: What is the capital of Illinois?</p>
+        <div>
+        <InputGroup style={{width:"50%",marginLeft:"25%"}}>
+        <InputGroupAddon addonType="prepend">Your Answer</InputGroupAddon>
+        <Input placeholder="Input answer here" />
+        <Button color="primary">Submit</Button>
+      </InputGroup>
+        </div>
+
       </Jumbotron>
     </div>
     );
