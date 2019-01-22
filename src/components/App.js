@@ -266,7 +266,6 @@ class App extends Component {
         </div>
         {this.renderReminders()}
         {this.renderClearButton()}
-        {this.renderCards()}
         </div>
       </div>
     );
