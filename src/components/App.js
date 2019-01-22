@@ -234,11 +234,11 @@ class App extends Component {
       <div className="App">
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-              <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Reminder Details: </div>
+              <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div>
             <input
               style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
               className="form-control"
-              placeholder="I have to..."
+              placeholder="Study Set Title"
               value = {this.state.text}
               onChange = {event => this.setState({text: event.target.value})}
             />
@@ -273,13 +273,13 @@ class App extends Component {
 
             <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
             <DropdownToggle caret>
-              <MdAlarm/> Edit Timer
+              <MdAlarm/> {this.state.selectedInterval}
             </DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem header>Choose Your Reminder Interval</DropdownItem>
-              <DropdownItem>Ebbinghaus (Default)</DropdownItem>
-              <DropdownItem>Daily</DropdownItem>
-              <DropdownItem>Weekly</DropdownItem>
+            <DropdownMenu style = {{width: '60px'}}>
+              <DropdownItem header>Reminder Interval</DropdownItem>
+              <DropdownItem onClick = {() => this.setState({selectedInterval: "Ebbinghaus"})}>Ebbinghaus</DropdownItem>
+              <DropdownItem onClick = {() => this.setState({selectedInterval: "Daily"})}>Daily</DropdownItem>
+              <DropdownItem onClick = {() => this.setState({selectedInterval: "Weekly"})}>Weekly</DropdownItem>
             </DropdownMenu>
           </Dropdown>
 
