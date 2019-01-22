@@ -239,7 +239,7 @@ class App extends Component {
     </Tilt>
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-              <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Reminder Details: </div>
+              <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Memorization Activity: </div>
             <input
               style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
               className="form-control"
