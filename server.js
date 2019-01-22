@@ -3,16 +3,20 @@ const bodyParser = require('body-parser');
 const scheduler = require('node-schedule');
 const cluster = require('cluster');
 const crypto = require('crypto');
+const path = require('path');
 
 const express_app = express();
 const client = require('twilio')('ACcb2bbf1ec4e8cd9b85fc7e4420f2ee3e', '081193202595c927ed1e6ce596b3d47c');
 
 express_app.use(bodyParser.urlencoded({ extended: false }));
 express_app.use(bodyParser.json());
+express_app.use(express.static(path.join(__dirname, 'build')));
 
 let scheduledTasks = new Set();
 
-express_app.use('/', express.static('public'));
+express_app.get('*', function(req, res){
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 express_app.post('/api/messages', (req, res) => {
     console.log('Received new message request.');

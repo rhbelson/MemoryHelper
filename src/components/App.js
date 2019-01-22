@@ -121,6 +121,7 @@ class App extends Component {
       <div className="App">
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
+              <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Reminder Details: </div>
             <input
               style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
               className="form-control"
@@ -136,7 +137,7 @@ class App extends Component {
               value = {this.state.phone}
               onChange = {event => this.setState({phone: event.target.value})}
             />
-            <div style = {{textAlign: 'center'}}> Enter Due Date: </div>
+            <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div>
             <input
               style ={{height: '35px', borderRadius: '10px'}}
               className="form-control"

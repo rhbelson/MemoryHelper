@@ -1,7 +1,7 @@
 {
   "name": "reminderapp-reactjs",
   "version": "0.1.0",
-  "homepage": "https://aj1402.github.io/reminderapp-reactjs/",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "body-parser": "^1.18.3",
