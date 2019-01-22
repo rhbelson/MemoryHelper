@@ -13,7 +13,8 @@ import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
-import Points from './Points'
+import firebase from 'firebase';
+import './card.css';
 
 WebFont.load({
   google: {
@@ -21,6 +22,17 @@ WebFont.load({
   }
 });
 
+
+//setting up firebase
+  var config = {
+    apiKey: "AIzaSyCyodghAcVUIbW6NC6hBaOghQVml3RLIKs",
+    authDomain: "memory-helper-de33b.firebaseapp.com",
+    databaseURL: "https://memory-helper-de33b.firebaseio.com",
+    projectId: "memory-helper-de33b",
+    storageBucket: "memory-helper-de33b.appspot.com",
+    messagingSenderId: "482145597160"
+  };
+  firebase.initializeApp(config);
 
 
 class App extends Component {
@@ -36,6 +48,34 @@ class App extends Component {
     };
     this.toggle = this.toggle.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this)
+    this.count = 0;
+  }
+
+  //Adds card data to database
+  addCard(){
+    var  db = firebase.database().ref("Cards/");
+    db.push({
+      id: this.count,
+      vocab: document.getElementById("Vocab").value,
+      definition: document.getElementById("Definition").value
+    });
+
+    this.count += 1;
+
+  }
+
+
+   //grabs a random card's Vocab Value from database
+  //right now just draws a specific card
+  drawCard(){
+
+  const rand = Math.floor(Math.random() * (this.count - 0 + 1)) + 0;
+   var db = firebase.database().ref("Cards/");
+
+   db.on("value", function(snapshot) {
+   var myCard = snapshot.val().vocab;
+   console.log(myCard);
+    });
   }
 
   toggle() {
@@ -127,6 +167,26 @@ class App extends Component {
     );
   }
 
+   renderCards(){
+    return(
+    <div>
+      <div className="card-container">
+        <div className="card">
+          <div className="front">
+            <div className="vocab">Vocab</div>
+          </div>
+          <div className="back">
+            <div className="definition">Definition</div>
+          </div>
+        </div>
+      </div>
+
+     <Button onClick={this.drawCard}> Draw Card </Button>
+    </div>
+    )
+  }
+
+
   render() {
 
 
@@ -195,7 +255,7 @@ class App extends Component {
                   <MyForm />
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" onClick={this.toggle}>Confirm</Button>{' '}
+                  <Button color="primary" onClick={() => {this.toggle(); this.addCard()}}>Confirm</Button>{' '}
                   <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                 </ModalFooter>
               </Modal>
@@ -206,6 +266,7 @@ class App extends Component {
         </div>
         {this.renderReminders()}
         {this.renderClearButton()}
+        {this.renderCards()}
         </div>
       </div>
     );
