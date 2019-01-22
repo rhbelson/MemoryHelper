@@ -3,11 +3,17 @@ import { connect } from 'react-redux';
 import 'whatwg-fetch';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
-import { Row, Button, Col, Container, Modal, ModalHeader, ModalFooter, ModalBody, Navbar, NavbarBrand } from 'reactstrap'
+import { Row,
+         Button,
+         Col,
+         Container,
+         Modal, ModalHeader, ModalFooter, ModalBody,
+         Navbar, NavbarBrand, NavItem } from 'reactstrap'
 import Reminder from './Reminder'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
+import Points from './Points'
 
 WebFont.load({
   google: {
@@ -25,7 +31,8 @@ class App extends Component {
       dueDate: '',
       phone: '',
       modal: false,
-      errorModal: false
+      errorModal: false,
+      points: 0
     };
     this.toggle = this.toggle.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this)
@@ -127,6 +134,10 @@ class App extends Component {
       <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
       <Navbar color="dark" light expand="md">
           <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
+          <NavItem style = {{listStyleType: 'none', color:"#ffffff", fontFamily:"Titillium Web", fontSize: '18px'}}>
+            <img src={require(`../images/star.jpg`)} width={30} style={{marginRight: '10px'}} />
+             {this.state.points} Points!
+          </NavItem>
       </Navbar>
 
       <div className="App">
@@ -139,7 +150,6 @@ class App extends Component {
               value = {this.state.text}
               onChange = {event => this.setState({text: event.target.value})}
             />
-
             <input
               style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
               className="form-control"
@@ -154,28 +164,15 @@ class App extends Component {
               type="datetime-local"
               placeholder="Due Date"
               value={this.state.dueDate}
-                // if(this.state.dueDate == ''){
-                //   value=moment()
-                // }
-                // else {
-                //   this.state.dueDate
-                // }
               onChange = {event => this.setState({dueDate: event.target.value})}
             />
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
             <Button
-              // className="btn btn-success"
               onClick = {() => {
-                if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== '')
-                {
-                this.toggle();
-                this.sendSms();
-                this.addReminder()
+                if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== ''){
+                  this.toggle(); this.sendSms(); this.addReminder()
                 }
-                else
-                {
-                  this.toggleErrorModal()
-                }
+                else {this.toggleErrorModal()}
               }}
               style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
             >
@@ -210,15 +207,11 @@ class App extends Component {
         {this.renderReminders()}
         {this.renderClearButton()}
         </div>
-
       </div>
     );
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators({addReminder}, dispatch);
-// }
 
 function mapStateToProps(state) {
   return {
