@@ -235,8 +235,9 @@ class App extends Component {
 
       <div className="App">
       <Tilt className="Tilt" options={{ max : 180, perspective: 1000, speed:300, transition:true,easing: "cubic-bezier(.03,.98,.52,.99)" }} >
-    <div className="Tilt-inner"> <img src={StudyPic} alt="logo" style={{width:"130px",animation:"spin infinite 20s linear"}}/> </div>
-    </Tilt>
+        <div className="Tilt-inner"> <img src={StudyPic} alt="logo" style={{width:"100px",animation:"spin infinite 20s linear"}}/> </div>
+      </Tilt>
+
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
               <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div>
@@ -287,7 +288,6 @@ class App extends Component {
               <DropdownItem onClick = {() => this.setState({selectedInterval: "Weekly"})}>Weekly</DropdownItem>
             </DropdownMenu>
           </Dropdown>
-
 
             <div>
               <Modal isOpen={this.state.errorModal} toggle={this.toggleErrorModal}>
