@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 // import { bindActionCreators } from 'redux';
 import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import moment from 'moment';
-import { Row, Button, Col, Form, FormGroup, Input} from 'reactstrap'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Row, Button, Col, Container, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
 
 class MyForm extends Component {
   constructor(props){
@@ -35,8 +37,8 @@ deleteRow() {
           <FormGroup>
           {this.state.rows.map((row, i) => {
           return <Row key={i}>
-            <Col><Input type="text" placeholder="Word" /></Col>
-            <Col><Input type="text" placeholder="Definition" /></Col>
+            <Col><Input id = "Vocab" type="text" placeholder="Vocab" /></Col>
+            <Col ><Input id = "Definition" type="text" placeholder="Definition" /></Col>
           </Row>}
         )}
           </FormGroup>

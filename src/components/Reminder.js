@@ -10,9 +10,9 @@ class Reminder extends Component {
   render() {
     return (
         <Row style = {{fontFamily:"Titillium Web", color: '#010423', border: '.1px solid black', borderRadius: '15px',paddingLeft: '5px',marginBottom: '5px',  width: '100%', alignItems: 'center', backgroundColor: 'white'}}>
-          <Col> {this.props.remind.text} </Col>
+          <Col style={{fontWeight:"bold"}}> {this.props.remind.text} </Col>
           <Col>{moment(new Date(this.props.remind.dueDate)).fromNow()}</Col>
-          <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} onClick = {this.props.del}> &#x2715; </div></Col>
+          <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} onClick = {this.props.del}> &#x2715;</div></Col>
         </Row>
       //
     );
