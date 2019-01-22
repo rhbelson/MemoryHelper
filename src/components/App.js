@@ -52,12 +52,14 @@ class App extends Component {
       errorModal: false,
       points: 0,
       dropdownOpen:false,
-      selectedInterval: 'Ebbinghaus'
+      selectedInterval: 'Ebbinghaus',
+      toggleQuestions: false
     };
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
     this.count = 0;
+    this.toggleQuestions = this.toggleQuestions.bind(this)
   }
 
   //Adds card data to database
@@ -162,6 +164,10 @@ class App extends Component {
     this.props.deleteAllReminders();
   }
 
+  toggleQuestions(){
+    this.setState({toggleQuestions: !this.state.toggleQuestions})
+  }
+
   renderClearButton() {
     const { reminders } = this.props;
     if(reminders.length !== 0){
@@ -184,6 +190,7 @@ class App extends Component {
 
   renderReminders() {
     const { reminders } = this.props;
+    const state = this.state
     return (
       <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
       <Col style = {{alignItems: 'center'}}>
@@ -191,7 +198,8 @@ class App extends Component {
           reminders.map((reminder, i) => {
             return (
               <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center',marginTop:'2%'}} key={i}>
-                <Reminder del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
+                <Reminder toggleQuestions = {() => this.setState({toggleQuestions: !this.state.toggleQuestions})}
+                          del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
               </Row>
             )
           })
@@ -312,14 +320,19 @@ class App extends Component {
               </Modal>
             </div>
 
+            <div>
+              <Modal isOpen={this.state.toggleQuestions} toggle={this.toggleQuestions}>
+                <ModalHeader toggle={this.toggleQuestions}>Questions</ModalHeader>
+                <Questions />
+              </Modal>
+            </div>
+
             </div>
           </div>
         </div>
         {this.renderReminders()}
         {this.renderClearButton()}
         </div>
-
-        <Questions/>
 
       </div>
     );

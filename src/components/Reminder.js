@@ -10,10 +10,10 @@ import {MdEdit} from 'react-icons/md';
 class Reminder extends Component {
   render() {
     return (
-        <Row style = {{fontFamily:"Titillium Web", color: '#010423', border: '.1px solid black', borderRadius: '15px',paddingLeft: '5px',marginBottom: '5px',  width: '100%', alignItems: 'center', backgroundColor: 'white'}}>
+        <Row onClick = {this.props.toggleQuestions} style = {{fontFamily:"Titillium Web", color: '#010423', border: '.1px solid black', borderRadius: '15px',paddingLeft: '5px',marginBottom: '5px',  width: '100%', alignItems: 'center', backgroundColor: 'white'}}>
           <Col style={{fontWeight:"bold"}}> {this.props.remind.text} </Col>
           <Col>{moment(new Date(this.props.remind.dueDate)).fromNow()}</Col>
-          <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} onClick = {this.props.del}> <MdEdit onClick={this.editModal} style={{marginTop:"2%",marginLeft:"10%"}}/> </div> </Col>
+          <Col><div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}} /*onClick = {this.props.del}*/> <MdEdit onClick={this.editModal} style={{marginTop:"2%",marginLeft:"10%"}}/> </div> </Col>
         </Row>
       //
     );
