@@ -15,19 +15,19 @@ WebFont.load({
 class Question extends Component {
   render() {
     return (
-        <div>
-      <Jumbotron style={{width:"50%",marginLeft:"25%",fontStyle:"Karla"}}>
+      <Jumbotron style={{width:"100%", fontStyle:"Karla", justifyContent: 'center'}}>
         <p style={{textAlign: "center",fontWeight:"bold"}}>Question: What is the capital of Illinois?</p>
-        <div>
-        <InputGroup style={{width:"50%",marginLeft:"25%"}}>
-        <InputGroupAddon addonType="prepend">Your Answer</InputGroupAddon>
-        <Input placeholder="Input answer here" />
-        <Button color="primary">Submit</Button>
-      </InputGroup>
-        </div>
-
+      <div>
+        <InputGroup style={{width:"100%"}}>
+          <Input placeholder="Input answer here" />
+          <Button color="primary" >Submit</Button>
+        </InputGroup>
+      </div>
+      <div class="container text-center">
+        <Button color="success" style={{marginTop: '15px'}}>Next Question</Button>
+      </div>
       </Jumbotron>
-    </div>
+
     );
   }
 }
