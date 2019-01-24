@@ -45,7 +45,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      text: '',
+      text: 'hi',
       dueDate: '',
       phone: '',
       modal: false,
@@ -53,12 +53,13 @@ class App extends Component {
       points: 0,
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
-      toggleQuestions: false
+      toggleQuestions: false,
+      count: 0
     };
+
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
-    this.count = 0;
     this.toggleQuestions = this.toggleQuestions.bind(this)
   }
 
@@ -71,7 +72,7 @@ class App extends Component {
       definition: document.getElementById("Definition").value
     });
 
-    this.count += 1;
+    this.setState({count: this.state.count + 1})
 
   }
 
@@ -286,7 +287,7 @@ class App extends Component {
               Add Reminder
             </Button>
 
-            <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+          <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
             <DropdownToggle caret>
               <MdAlarm/> {this.state.selectedInterval}
             </DropdownToggle>
@@ -323,7 +324,7 @@ class App extends Component {
             <div>
               <Modal isOpen={this.state.toggleQuestions} toggle={this.toggleQuestions}>
                 <ModalHeader toggle={this.toggleQuestions}>Questions</ModalHeader>
-                <Questions />
+                <Questions questionCount = {this.state.count} />
               </Modal>
             </div>
 
@@ -333,7 +334,6 @@ class App extends Component {
         {this.renderReminders()}
         {this.renderClearButton()}
         </div>
-
       </div>
     );
   }
