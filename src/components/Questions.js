@@ -5,6 +5,7 @@ import {MdEdit} from 'react-icons/md';
 import { Jumbotron, Button } from 'reactstrap';
 import { InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap';
 import WebFont from 'webfontloader';
+import firebase from 'firebase';
 
 WebFont.load({
   google: {
@@ -13,24 +14,28 @@ WebFont.load({
 });
 
 class Question extends Component {
+  
+ 
+
   render() {
     return (
       <Jumbotron style={{width:"100%", fontStyle:"Karla", justifyContent: 'center'}}>
-        <p style={{textAlign: "center",fontWeight:"bold"}}>Question: What is the capital of Illinois?</p>
+        <p style={{textAlign: "center",fontWeight:"bold"}} >Question: What is the capital of Illinois?</p>
       <div>
         <InputGroup style={{width:"100%"}}>
           <Input placeholder="Input answer here" />
           <Button color="primary" >Submit</Button>
         </InputGroup>
       </div>
-      <div class="container text-center">
-        <Button color="success" style={{marginTop: '15px'}}>Next Question</Button>
+      <div className="container text-center">
+        <Button color="success" style={{marginTop: '15px'}} onClick = {this.props.questionDrawCard}>Next Question</Button>
       </div>
       </Jumbotron>
 
     );
   }
 }
+
 
 
 

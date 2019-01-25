@@ -16,6 +16,7 @@ import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
 import firebase from 'firebase';
+import {addCard} from './Questions'
 import './card.css';
 import { MdAlarm } from 'react-icons/md';
 import Tilt from 'react-tilt';
@@ -45,49 +46,98 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      text: '',
-      dueDate: '',
-      phone: '',
+      text: 'hi',
+      dueDate: 'hi',
+      phone: 'hi',
       modal: false,
       errorModal: false,
       points: 0,
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
-      toggleQuestions: false
+      toggleQuestions: false,
+      cardCount: 0
+      
     };
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
-    this.count = 0;
     this.toggleQuestions = this.toggleQuestions.bind(this)
   }
 
-  //Adds card data to database
+
+//creates a deck of cards, titled with the text in Study Set Title
+createDeck(){
+  console.log("calling create deck");
+  let deckTitle = this.state.text;
+  let db=firebase.database().ref('/User1');
+  db.update({
+    [deckTitle] :{
+      //cardID: {
+       //question: 'dummy1',
+        //answer: 'dummy2'
+      //},
+      count: 0
+    }
+  });
+
+  this.state.currentDeck = deckTitle; 
+}
+
+//Adds card data to database
   addCard(){
-    var  db = firebase.database().ref("Cards/");
-    db.push({
-      id: this.count,
-      vocab: document.getElementById("Vocab").value,
-      definition: document.getElementById("Definition").value
+    let deckTitle = this.state.currentDeck;
+    let db = firebase.database().ref('/User1/' + deckTitle);
+
+    //getting the current count from the database
+    db.on('value', (snapshot)=>{
+      this.setState({cardCount: snapshot.val().count});
+      console.log("count inside on");
+      console.log(snapshot.val().count);
     });
 
-    this.count += 1;
+    console.log('card count outside on');
+    console.log(this.state.cardCount);
 
+    //adding the form inputs to database
+    let cardID = this.state.cardCount + 1; 
+    db.update({
+      [cardID] : {
+        question: document.getElementById("Vocab").value,
+        answer: document.getElementById("Definition").value
+      }
+    });
+    
+    let newCount = this.state.cardCount + 1
+    //this.setState({cardCount: newCount}); 
+    //incrementing count value in database!
+    db.update({
+      count: newCount
+    });
   }
 
 
-   //grabs a random card's Vocab Value from database
+
+  
+  //grabs a random card's Vocab Value from database
   //right now just draws a specific card
+  
   drawCard(){
 
-  const rand = Math.floor(Math.random() * (this.count - 0 + 1)) + 0;
-   var db = firebase.database().ref("Cards/");
+   //const rand = Math.floor(Math.random() * (this.state.count + 1));
+   var db = firebase.database().ref("/Deck/Cards");
+   console.log("rand is");
+   //console.log(rand);
 
    db.on("value", function(snapshot) {
-   var myCard = snapshot.val().vocab;
+   
+    //snapshot.val() is entire cards sec of DB
+   var myCard = snapshot.val();
+   console.log("in draw card")
    console.log(myCard);
     });
   }
+
+
 
   toggle() {
       this.setState({modal: !this.state.modal});
@@ -174,7 +224,7 @@ class App extends Component {
       return(
         <Button
           style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}}
-          onClick = {() => this.deleteAllReminders()}>
+          onClick = {() => {this.deleteAllReminders(); this.drawCard()}}>
           Clear Reminders
         </Button>
       );
@@ -230,10 +280,13 @@ class App extends Component {
 
 
   render() {
-
-
+ 
     return (
+
       <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
+       
+       
+
       <Navbar color="dark" light expand="md">
           <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
           <NavItem style = {{listStyleType: 'none', color:"#ffffff", fontFamily:"Titillium Web", fontSize: '18px'}}>
@@ -280,7 +333,7 @@ class App extends Component {
                   this.toggle(); this.sendSms(); this.addReminder()
                 }
                 else {this.toggleErrorModal()}
-              }}
+              this.createDeck()}}
               style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
             >
               Add Reminder
@@ -323,7 +376,7 @@ class App extends Component {
             <div>
               <Modal isOpen={this.state.toggleQuestions} toggle={this.toggleQuestions}>
                 <ModalHeader toggle={this.toggleQuestions}>Questions</ModalHeader>
-                <Questions />
+                <Questions questionDrawCard = {() => this.drawCard()}/>
               </Modal>
             </div>
 
