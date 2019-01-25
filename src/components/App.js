@@ -55,7 +55,8 @@ class App extends Component {
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
       toggleQuestions: false,
-      cardCount: 0
+      cardCount: 0, 
+      currentDeck: ''
       
     };
     this.toggle = this.toggle.bind(this);
@@ -79,8 +80,7 @@ createDeck(){
       count: 0
     }
   });
-
-  this.state.currentDeck = deckTitle; 
+  this.setState({currentDeck: deckTitle}); 
 }
 
 //Adds card data to database
@@ -91,12 +91,12 @@ createDeck(){
     //getting the current count from the database
     db.on('value', (snapshot)=>{
       this.setState({cardCount: snapshot.val().count});
-      console.log("count inside on");
-      console.log(snapshot.val().count);
+      //console.log("count inside on");
+      //console.log(snapshot.val().count);
     });
 
-    console.log('card count outside on');
-    console.log(this.state.cardCount);
+    //console.log('card count outside on');
+    //console.log(this.state.cardCount);
 
     //adding the form inputs to database
     let cardID = this.state.cardCount + 1; 
@@ -107,9 +107,8 @@ createDeck(){
       }
     });
     
-    let newCount = this.state.cardCount + 1
-    //this.setState({cardCount: newCount}); 
-    //incrementing count value in database!
+    //incrementing count value in database! (b/c we added a new card)
+    let newCount = this.state.cardCount + 1;
     db.update({
       count: newCount
     });
