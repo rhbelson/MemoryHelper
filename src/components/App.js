@@ -123,14 +123,14 @@ createDeck(){
   drawCard(){
 
    //const rand = Math.floor(Math.random() * (this.state.count + 1));
-   var db = firebase.database().ref("/Deck/Cards");
+   var db = firebase.database().ref("/User1/" + this.state.currentDeck);
    console.log("rand is");
    //console.log(rand);
 
-   db.on("value", function(snapshot) {
+   db.on("value", (snapshot)=>{
    
     //snapshot.val() is entire cards sec of DB
-   var myCard = snapshot.val();
+   let myCard = snapshot.val();
    console.log("in draw card")
    console.log(myCard);
     });
