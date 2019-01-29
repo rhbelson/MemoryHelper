@@ -55,7 +55,8 @@ class App extends Component {
       selectedInterval: 'Ebbinghaus',
       toggleQuestions: false,
       count: 0,
-      reminderCount: 0
+      reminderCount: 0,
+      newReminderForm: true
     };
 
     this.toggle = this.toggle.bind(this);
@@ -300,14 +301,16 @@ class App extends Component {
 
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-              <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div>
-            {this.state.reminderCount === 0 ? inputone : null}
-            {this.state.reminderCount === 0 ? inputtwo : null}
-            {this.state.reminderCount === 0 ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
-            {this.state.reminderCount === 0 ? inputthree : null}
-            <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
-            {this.state.reminderCount === 0 ? dropdown : null}
-            {this.state.reminderCount === 0 ? addButton : null}
+              <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}} onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}> Toggle New Reminder Form </Button>
+                {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div> : null}
+
+                  {this.state.newReminderForm ? inputone : null}
+                  {this.state.newReminderForm ? inputtwo : null}
+                  {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
+                  {this.state.newReminderForm ? inputthree : null}
+                  <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
+                  {this.state.newReminderForm ? dropdown : null}
+                  {this.state.newReminderForm ? addButton : null}
 
 
             <div>
