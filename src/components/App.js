@@ -54,7 +54,8 @@ class App extends Component {
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
       toggleQuestions: false,
-      count: 0
+      count: 0,
+      reminderCount: 0
     };
 
     this.toggle = this.toggle.bind(this);
@@ -63,9 +64,14 @@ class App extends Component {
     this.toggleQuestions = this.toggleQuestions.bind(this)
   }
 
+  // componentWillMount(){
+  //   let db = firebase.database().ref('User1');
+  //   db.on('value', (snapshot) => {this.setState({reminderCount: snapshot.val})})
+  // }
+
   //Adds card data to database
   addCard(){
-    var  db = firebase.database().ref("Cards/");
+    let  db = firebase.database().ref("Cards/");
     db.push({
       id: this.count,
       vocab: document.getElementById("Vocab").value,
@@ -231,7 +237,51 @@ class App extends Component {
 
 
   render() {
+    const inputone = <input
+      style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
+      className="form-control"
+      placeholder="Study Set Title"
+      value = {this.state.text}
+      onChange = {event => this.setState({text: event.target.value})}
+    />
+    const inputtwo = <input
+      style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
+      className="form-control"
+      placeholder="Your Phone Number"
+      value = {this.state.phone}
+      onChange = {event => this.setState({phone: event.target.value})}
+    />
+    const inputthree = <input
+      style ={{height: '35px', borderRadius: '10px'}}
+      className="form-control"
+      type="datetime-local"
+      placeholder="Due Date"
+      value={this.state.dueDate}
+      onChange = {event => this.setState({dueDate: event.target.value})}
+    />
+    const addButton = <Button
+      onClick = {() => {
+        if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== ''){
+          this.toggle(); this.sendSms(); this.addReminder()
+        }
+        else {this.toggleErrorModal()}
+      }}
+      style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
+    >
+      Add Reminder
+    </Button>
 
+    const dropdown = <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
+      <DropdownToggle caret>
+        <MdAlarm/> {this.state.selectedInterval}
+      </DropdownToggle>
+      <DropdownMenu style = {{width: '60px'}}>
+        <DropdownItem header>Reminder Interval</DropdownItem>
+        <DropdownItem onClick = {() => this.setState({selectedInterval: "Ebbinghaus"})}>Ebbinghaus</DropdownItem>
+        <DropdownItem onClick = {() => this.setState({selectedInterval: "Daily"})}>Daily</DropdownItem>
+        <DropdownItem onClick = {() => this.setState({selectedInterval: "Weekly"})}>Weekly</DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
 
     return (
       <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
@@ -251,53 +301,14 @@ class App extends Component {
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
               <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div>
-            <input
-              style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
-              className="form-control"
-              placeholder="Study Set Title"
-              value = {this.state.text}
-              onChange = {event => this.setState({text: event.target.value})}
-            />
-            <input
-              style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
-              className="form-control"
-              placeholder="Your Phone Number"
-              value = {this.state.phone}
-              onChange = {event => this.setState({phone: event.target.value})}
-            />
-            <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div>
-            <input
-              style ={{height: '35px', borderRadius: '10px'}}
-              className="form-control"
-              type="datetime-local"
-              placeholder="Due Date"
-              value={this.state.dueDate}
-              onChange = {event => this.setState({dueDate: event.target.value})}
-            />
+            {this.state.reminderCount === 0 ? inputone : null}
+            {this.state.reminderCount === 0 ? inputtwo : null}
+            {this.state.reminderCount === 0 ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
+            {this.state.reminderCount === 0 ? inputthree : null}
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
-            <Button
-              onClick = {() => {
-                if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== ''){
-                  this.toggle(); this.sendSms(); this.addReminder()
-                }
-                else {this.toggleErrorModal()}
-              }}
-              style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
-            >
-              Add Reminder
-            </Button>
+            {this.state.reminderCount === 0 ? addButton : null}
+            {this.state.reminderCount === 0 ? dropdown : null}
 
-          <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
-            <DropdownToggle caret>
-              <MdAlarm/> {this.state.selectedInterval}
-            </DropdownToggle>
-            <DropdownMenu style = {{width: '60px'}}>
-              <DropdownItem header>Reminder Interval</DropdownItem>
-              <DropdownItem onClick = {() => this.setState({selectedInterval: "Ebbinghaus"})}>Ebbinghaus</DropdownItem>
-              <DropdownItem onClick = {() => this.setState({selectedInterval: "Daily"})}>Daily</DropdownItem>
-              <DropdownItem onClick = {() => this.setState({selectedInterval: "Weekly"})}>Weekly</DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
 
             <div>
               <Modal isOpen={this.state.errorModal} toggle={this.toggleErrorModal}>
