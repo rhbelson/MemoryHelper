@@ -304,11 +304,11 @@ class App extends Component {
                 {this.state.newReminderForm ? <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
                                                       onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
                                                       Show Reminders </Button> :
-                                                      <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
-                                                                                            onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
-                                                                                            Add New Reminder </Button>}
+                                              <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
+                                                      onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
+                                                      Add New Reminder </Button>}
                 {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div> : null}
-
+                {this.state.newReminderForm ? null : <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Click on a Reminder to Study! </div>}
                   {this.state.newReminderForm ? inputone : null}
                   {this.state.newReminderForm ? inputtwo : null}
                   {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
