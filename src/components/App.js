@@ -266,7 +266,7 @@ class App extends Component {
         }
         else {this.toggleErrorModal()}
       }}
-      style= {{alignItems: 'center', marginTop: '5px', border: '0px', backgroundColor: '#5a9506'}}
+      style= {{alignItems: 'center', marginTop: '5px', marginLeft: '5px', border: '0px', backgroundColor: '#5a9506'}}
     >
       Add Reminder
     </Button>
@@ -306,8 +306,8 @@ class App extends Component {
             {this.state.reminderCount === 0 ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
             {this.state.reminderCount === 0 ? inputthree : null}
             <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
-            {this.state.reminderCount === 0 ? addButton : null}
             {this.state.reminderCount === 0 ? dropdown : null}
+            {this.state.reminderCount === 0 ? addButton : null}
 
 
             <div>
