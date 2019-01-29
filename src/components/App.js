@@ -72,7 +72,7 @@ class App extends Component {
 
   //Adds card data to database
   addCard(){
-    let  db = firebase.database().ref("Cards/");
+    let  db = firebase.database().ref(`User1/${this.state.text}`);
     db.push({
       id: this.count,
       vocab: document.getElementById("Vocab").value,
