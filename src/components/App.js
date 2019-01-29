@@ -152,6 +152,7 @@ scheduleMessages() {
     this.setState({text: '', dueDate: '', phone: ''});
     this.incrementPoints(5);
     this.setState({numReminders: this.state.numReminders+1});
+    this.viewTasks();
   }
 
   deleteReminder(id){
@@ -294,8 +295,8 @@ scheduleMessages() {
     if (this.state.numReminders>=1 && this.state.viewingTasks==true) {
       return (
       <div>
-      <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
       <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold"}}>My Reminders</h2>
+      <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
       <Col style = {{alignItems: 'center'}}>
       {
         reminders.map((reminder, i) => {
