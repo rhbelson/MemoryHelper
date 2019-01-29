@@ -55,9 +55,9 @@ class App extends Component {
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
       toggleQuestions: false,
-      cardCount: 0, 
+      cardCount: 0,
       currentDeck: ''
-      
+
     };
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
@@ -80,7 +80,7 @@ createDeck(){
       count: 0
     }
   });
-  this.setState({currentDeck: deckTitle}); 
+  this.setState({currentDeck: deckTitle});
 }
 
 //Adds card data to database
@@ -99,14 +99,14 @@ createDeck(){
     //console.log(this.state.cardCount);
 
     //adding the form inputs to database
-    let cardID = this.state.cardCount + 1; 
+    let cardID = this.state.cardCount + 1;
     db.update({
       [cardID] : {
         question: document.getElementById("Vocab").value,
         answer: document.getElementById("Definition").value
       }
     });
-    
+
     //incrementing count value in database! (b/c we added a new card)
     let newCount = this.state.cardCount + 1;
     db.update({
@@ -116,10 +116,10 @@ createDeck(){
 
 
 
-  
+
   //grabs a random card's Vocab Value from database
   //right now just draws a specific card
-  
+
   drawCard(){
 
    //const rand = Math.floor(Math.random() * (this.state.count + 1));
@@ -128,7 +128,7 @@ createDeck(){
    //console.log(rand);
 
    db.on("value", (snapshot)=>{
-   
+
     //snapshot.val() is entire cards sec of DB
    let myCard = snapshot.val();
    console.log("in draw card")
@@ -279,12 +279,12 @@ createDeck(){
 
 
   render() {
- 
+
     return (
 
       <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
-       
-       
+
+
 
       <Navbar color="dark" light expand="md">
           <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
