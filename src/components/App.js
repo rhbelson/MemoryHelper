@@ -50,6 +50,7 @@ class App extends Component {
       phone: '',
       modal: false,
       errorModal: false,
+      Tutorial: false,
       points: 0,
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
@@ -62,7 +63,8 @@ class App extends Component {
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
-    this.toggleQuestions = this.toggleQuestions.bind(this)
+    this.toggleQuestions = this.toggleQuestions.bind(this);
+    this.toggleTutorial = this.toggleTutorial.bind(this);
   }
 
   // componentWillMount(){
@@ -103,6 +105,10 @@ class App extends Component {
 
   toggleErrorModal() {
       this.setState({errorModal: !this.state.errorModal});
+    }
+
+  toggleTutorial() {
+      this.setState({Tutorial: !this.state.Tutorial});
     }
 
   sendSms = () => {
@@ -291,6 +297,7 @@ class App extends Component {
           <NavItem style = {{listStyleType: 'none', color:"#ffffff", fontFamily:"Titillium Web", fontSize: '18px'}}>
             <img src={require(`../images/star.jpg`)} width={30} style={{marginRight: '10px'}} />
              {this.state.points} Points!
+             <Button style = {{marginLeft: '15px'}} onClick = {() => {this.toggleTutorial()}}> ? </Button>
           </NavItem>
       </Navbar>
 
@@ -323,6 +330,25 @@ class App extends Component {
                 <ModalHeader toggle={this.toggleErrorModal}>Please Fill in All Fields</ModalHeader>
                 <ModalFooter>
                   <Button color="primary" onClick={this.toggleErrorModal}>OK</Button>{' '}
+                </ModalFooter>
+              </Modal>
+            </div>
+
+            <div>
+              <Modal isOpen={this.state.Tutorial} toggle={this.toggleTutorial}>
+                <ModalHeader toggle={this.toggleTutorial}>Welcome to MemoryHelper!</ModalHeader>
+                <ModalBody>
+                  <p>This is our humble studying reminder app!</p>
+                  <p>The purpose of this app is to remind you to study, as well as create a means for you to do so.</p>
+                  <p>To begin, simply enter the subject you're studying for as well as your phone number and the due date,
+                    and then create flashcards to help you remember content.
+                      Our app will then send you periodic reminders to study based on your due date and the reminder interval you select.</p>
+                  <p>The Ebbinghaus option is a scientific curve designed to send you reminders at intervals that will
+                    maximize remembrance!</p>
+                  <p>That's really it, please love us!!!</p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.toggleTutorial}>Got it!</Button>{' '}
                 </ModalFooter>
               </Modal>
             </div>
