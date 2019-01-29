@@ -291,7 +291,7 @@ scheduleMessages() {
     const { reminders } = this.props;
     const state = this.state
 
-    if (this.state.numReminders>=1) {
+    if (this.state.numReminders>=1 && this.state.viewingTasks==true) {
       return (
       <div>
       <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
@@ -313,7 +313,7 @@ scheduleMessages() {
       );
   }
 
-    else {
+  if (this.state.numReminders==0 && this.state.viewingTasks==true) {
       return(
         <div>
       <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold",marginTop:"5%"}}>My Reminders</h2>
@@ -323,6 +323,9 @@ scheduleMessages() {
     }
 
 
+  else {
+      return
+    }
 
 
   }
