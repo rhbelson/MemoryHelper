@@ -301,7 +301,12 @@ class App extends Component {
 
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-              <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}} onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}> Add New Reminder </Button>
+                {this.state.newReminderForm ? <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
+                                                      onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
+                                                      Show Reminders </Button> :
+                                                      <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
+                                                                                            onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
+                                                                                            Add New Reminder </Button>}
                 {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div> : null}
 
                   {this.state.newReminderForm ? inputone : null}
@@ -345,8 +350,8 @@ class App extends Component {
             </div>
           </div>
         </div>
-        {this.renderReminders()}
-        {this.renderClearButton()}
+        {this.state.newReminderForm ? null : this.renderReminders()}
+        {this.state.newReminderForm ? null : this.renderClearButton()}
         </div>
       </div>
     );
