@@ -6,50 +6,71 @@ import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Row, Button, Col, Container, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
+import {MdDone, MdDelete} from 'react-icons/md';
 
 class MyForm extends Component {
   constructor(props){
     super(props);
     this.state = {
-      rows: [1],
-      last: 1
+      content: [],
+      newVocab: '',
+      newAnswer: '',
     };
 
     this.addRow = this.addRow.bind(this);
   }
 
 addRow() {
-  const newLast = this.state.last + 1
-  const newArray = this.state.rows.concat([newLast])
-  this.setState({rows: newArray, last: newLast})
+  const state = this.state
+  const props = this.props
+  if(this.state.newLast!= '' && this.state.newAnswer != ''){
+    this.setState({content: [...state.content, [state.newVocab, state.newAnswer]],
+                   newVocab: '',
+                   newAnswer: ''}, props.updateContents(state.content))
+  }
 }
 
 deleteRow() {
-  const newLast = this.state.last - 1
-  const newArray = this.state.rows.slice(0, -1)
-  this.setState({rows: newArray, last: newLast})
+  console.log(this.state.content)
+  return
 }
 
 
   render() {
     return (
         <Form>
-          <FormGroup>
-          {this.state.rows.map((row, i) => {
-          return <Row key={i}>
-            <Col><Input id = "Vocab" type="text" placeholder="Question" /></Col>
-            <Col ><Input id = "Definition" type="text" placeholder="Answer" /></Col>
-          </Row>}
-        )}
+          <FormGroup> {this.state.content.map((row, i) => {
+                          return   <Row key={i}>
+                                      <Col><Input id = "Vocab"
+                                                    type="text"
+                                                    disabled = {true}
+                                                    value = {row[0]}/></Col>
+                                      <Col><Input id = "Definition"
+                                                    type="text"
+                                                    disabled = {true}
+                                                    value = {row[1]}/>
+
+                                      </Col>
+                                        <Button style = {{marginTop: '5px', height: '50%', textAlign: 'center'}} color = "danger" onClick={() => this.deleteRow()}> <MdDelete style = {{marginRight: '5px'}}/> </Button>
+                                     </Row>
+                        }
+                                )}
+              <Row>
+                  <Col><Input id = "Vocab"
+                                type="text"
+                                placeholder="Question"
+                                value = {this.state.newVocab}
+                                onChange = {event => this.setState({newVocab: event.target.value})} /></Col>
+                  <Col><Input id = "Definition"
+                                type="text"
+                                placeholder="Answer"
+                                value = {this.state.newAnswer}
+                                onChange = {event => this.setState({newAnswer: event.target.value})} />
+
+                    </Col>
+                    <Button style = {{marginTop: '5px', height: '50%', textAlign: 'center'}} color = "success" onClick={() => this.addRow()}> <MdDone style = {{marginRight: '5px'}}/> </Button>
+                </Row>
           </FormGroup>
-          <Row>
-            <Col>
-              <Button style = {{width: '100%'}} color = "success" onClick={() => this.addRow()}> Add Row </Button>
-            </Col>
-            <Col>
-              <Button style = {{width: '100%'}} color = "danger" onClick={() => this.deleteRow()}> Delete Row </Button>
-            </Col>
-          </Row>
         </Form>
       //
     );

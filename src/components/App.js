@@ -56,30 +56,21 @@ class App extends Component {
       selectedInterval: 'Ebbinghaus',
       toggleQuestions: false,
       cardCount: 0,
-      currentDeck: ''
+      currentDeck: '',
+      contents: []
 
     };
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
     this.toggleQuestions = this.toggleQuestions.bind(this)
+    this.updateContents = this.updateContents.bind(this)
   }
 
 
 //creates a deck of cards, titled with the text in Study Set Title
 createDeck(){
-  console.log("calling create deck");
   let deckTitle = this.state.text;
-  let db=firebase.database().ref('/User1');
-  db.update({
-    [deckTitle] :{
-      //cardID: {
-       //question: 'dummy1',
-        //answer: 'dummy2'
-      //},
-      count: 0
-    }
-  });
   this.setState({currentDeck: deckTitle});
 }
 
@@ -88,37 +79,13 @@ createDeck(){
     let deckTitle = this.state.currentDeck;
     let db = firebase.database().ref('/User1/' + deckTitle);
 
-    //getting the current count from the database
-    db.on('value', (snapshot)=>{
-      this.setState({cardCount: snapshot.val().count});
-      //console.log("count inside on");
-      //console.log(snapshot.val().count);
-    });
-
-    //console.log('card count outside on');
-    //console.log(this.state.cardCount);
-
-    //adding the form inputs to database
     let cardID = this.state.cardCount + 1;
-    db.update({
-      [cardID] : {
-        question: document.getElementById("Vocab").value,
-        answer: document.getElementById("Definition").value
-      }
-    });
+    this.state.contents.map((row, i) => {
+      db = firebase.database().ref(`/User1/${deckTitle}/${i}`);
+      db.update({question: row[0], answer: row[1]})
+      })
 
-    //incrementing count value in database! (b/c we added a new card)
-    let newCount = this.state.cardCount + 1;
-    db.update({
-      count: newCount
-    });
   }
-
-
-
-
-  //grabs a random card's Vocab Value from database
-  //right now just draws a specific card
 
   drawCard(){
 
@@ -277,6 +244,10 @@ createDeck(){
     )
   }
 
+  updateContents(stuff){
+    this.setState({contents: stuff})
+  }
+
 
   render() {
 
@@ -363,7 +334,7 @@ createDeck(){
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>Make Your FlashCards!</ModalHeader>
                 <ModalBody>
-                  <MyForm />
+                  <MyForm updateContents = {this.updateContents}/>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={() => {this.toggle(); this.addCard()}}>Confirm</Button>{' '}
