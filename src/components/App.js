@@ -20,6 +20,7 @@ import { Row,
  import { MdAlarm } from 'react-icons/md';
  import Tilt from 'react-tilt';
  import StudyPic from './study.png';
+ import { FaTasks } from "react-icons/fa";
 
 
  WebFont.load({
@@ -54,7 +55,8 @@ class App extends Component {
       dropdownOpen:false,
       toggleQuestions: false,
       numReminders:0,
-      AddNewActivity:false
+      AddNewActivity:false,
+      viewingTasks:false
     };
     this.toggle = this.toggle.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
@@ -267,36 +269,62 @@ scheduleMessages() {
       );
     }
     else{
-      return (
-        <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold"}}>My Reminders</h2>
-      );
+      return
     }
   }
+
+
+  viewTasks() {
+    if (this.state.viewingTasks==false) {
+      this.renderReminders();
+      this.setState({viewingTasks: true});
+    }
+    else {
+      this.setState({viewingTasks: false});
+    }
+  }
+
 
 
 
   renderReminders() {
     const { reminders } = this.props;
     const state = this.state
-    return (
-    <div>
-    <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
 
-    <Col style = {{alignItems: 'center'}}>
-    {
-      reminders.map((reminder, i) => {
-        return (
-        <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center',marginTop:'2%'}} key={i}>
-        <Reminder toggleQuestions = {() => this.setState({toggleQuestions: !this.state.toggleQuestions})}
-        del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
-        </Row>
-        )
-      })
+    if (this.state.numReminders>=1) {
+      return (
+      <div>
+      <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
+      <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold"}}>My Reminders</h2>
+      <Col style = {{alignItems: 'center'}}>
+      {
+        reminders.map((reminder, i) => {
+          return (
+          <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center',marginTop:'2%'}} key={i}>
+          <Reminder toggleQuestions = {() => this.setState({toggleQuestions: !this.state.toggleQuestions})}
+          del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
+          </Row>
+          )
+        })
+      }
+      </Col>
+      </Container>
+      </div>
+      );
+  }
+
+    else {
+      return(
+        <div>
+      <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold",marginTop:"5%"}}>My Reminders</h2>
+        <h4 style={{textAlign:"center", fontFamily:"Karla"}}>Sorry, you currently have no reminders</h4>
+      </div>
+        );
     }
-    </Col>
-    </Container>
-    </div>
-    );
+
+
+
+
   }
 
   renderCards(){
@@ -330,6 +358,11 @@ scheduleMessages() {
           <img src={require(`../images/star.jpg`)} width={30} style={{marginRight: '10px'}} />
                {this.state.points} Points!
         </NavItem>
+        
+        <NavItem style = {{listStyleType: 'none'}}>
+        <Button onClick = {() => this.viewTasks()}><FaTasks/> View Tasks</Button>
+        </NavItem>
+
       </Navbar>
 
       <div className="App">
