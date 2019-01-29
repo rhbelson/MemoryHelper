@@ -269,7 +269,7 @@ class App extends Component {
       }}
       style= {{alignItems: 'center', marginTop: '5px', marginLeft: '5px',border: '0px', backgroundColor: '#5a9506'}}
     >
-      Add Reminder
+      Confirm
     </Button>
 
     const dropdown = <Dropdown style={{marginLeft:"3%",border:'0px',marginTop:"1%"}} isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
@@ -301,7 +301,7 @@ class App extends Component {
 
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-              <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}} onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}> Toggle New Reminder Form </Button>
+              <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}} onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}> Add New Reminder </Button>
                 {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div> : null}
 
                   {this.state.newReminderForm ? inputone : null}
