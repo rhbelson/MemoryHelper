@@ -187,10 +187,10 @@ scheduleMessages() {
   }
 
 
-  renderReminderForm(numReminders) {
-    if (numReminders===0) {
+  renderReminderForm() {
+    if (this.state.numReminders===0) {
       return (
-        <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
+        <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black",marginLeft:"25%"}}>
           <div className="form-group">
             <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div>
               <input
@@ -267,7 +267,9 @@ scheduleMessages() {
       );
     }
     else{
-      return
+      return (
+        <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold"}}>My Reminders</h2>
+      );
     }
   }
 
@@ -278,7 +280,6 @@ scheduleMessages() {
     const state = this.state
     return (
     <div>
-    <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold"}}>My Reminders</h2>
     <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
 
     <Col style = {{alignItems: 'center'}}>
@@ -339,7 +340,7 @@ scheduleMessages() {
 
 
 
-     {this.renderReminderForm(num)}
+     {this.renderReminderForm()}
     {this.renderReminders()}
     {this.renderClearButton()}
 
