@@ -282,6 +282,7 @@ scheduleMessages() {
     }
     else {
       this.setState({viewingTasks: false});
+      this.renderReminderForm();
     }
   }
 
@@ -293,6 +294,7 @@ scheduleMessages() {
     const state = this.state
 
     if (this.state.numReminders>=1 && this.state.viewingTasks==true) {
+      this.renderClearButton();
       return (
       <div>
       <h2 style={{fontFamily:"Karla",marginLeft:"30%",fontWeight:"bold"}}>My Reminders</h2>

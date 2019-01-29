@@ -7,6 +7,7 @@ import { Row, Col} from 'reactstrap';
 import {MdEdit, MdAlarm} from 'react-icons/md';
 import {IoIosBook} from "react-icons/io";
 import { Button, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { MdDelete } from "react-icons/md";
 
 
 class Reminder extends Component {
@@ -50,6 +51,8 @@ class Reminder extends Component {
                   <DropdownItem onClick = {() => this.setState({selectedInterval: "Weekly"})}>Weekly</DropdownItem>
                 </DropdownMenu>
               </Dropdown></Col>
+
+          <Col><Button onClick={this.props.deleteReminder}> <MdDelete/> </Button> </Col>
 
         </Row>
       //
