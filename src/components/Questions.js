@@ -20,6 +20,7 @@ class Questions extends Component {
       question:"",
       answer:"",
       inputValue:"",
+      emptyDeck:true,
       message:"Start practicing here:"
     };
     this.updateInputValue=this.updateInputValue.bind(this);
@@ -35,10 +36,17 @@ class Questions extends Component {
   generateQuestionText(id) {
       return firebase.database().ref('User1/'+this.props.deckTitle).once('value').then(snapshot => {
       let data = snapshot.val();
-      let random_question_number=Math.floor(Math.random() * data.length); 
-      console.log(data[random_question_number].question, data[random_question_number].answer);
-      this.setState({question: data[random_question_number].question});
-      this.setState({answer: data[random_question_number].answer});
+
+      if (data) {
+        if (data.length>0) {
+          this.setState({emptyDeck: false})
+        }
+
+        let random_question_number=Math.floor(Math.random() * data.length); 
+        console.log(data[random_question_number].question, data[random_question_number].answer);
+        this.setState({question: data[random_question_number].question});
+        this.setState({answer: data[random_question_number].answer});
+      }
     })
 
   }
@@ -63,6 +71,9 @@ class Questions extends Component {
   }
 
   render() {
+
+    if (this.state.emptyDeck==false) {
+
     return (
       <Jumbotron style={{width:"100%", fontStyle:"Karla", justifyContent: 'center'}}>
         <h3 style={{textAlign:"center"}}>{this.state.message}</h3>
@@ -77,8 +88,16 @@ class Questions extends Component {
         <Button color="success" style={{marginTop: '15px'}} onClick = {this.props.questionDrawCard}>Next Question</Button>
       </div>
       </Jumbotron>
+    );}
 
+    else {
+      return (
+      <Jumbotron style={{width:"100%", fontStyle:"Karla", justifyContent: 'center'}}>
+        <h3 style={{textAlign:"center"}}>No questions in deck :(</h3>
+      </Jumbotron>
     );
+    }
+
   }
 }
 
