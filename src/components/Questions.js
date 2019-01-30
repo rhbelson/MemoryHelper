@@ -16,31 +16,57 @@ WebFont.load({
 class Questions extends Component {
   constructor(props){
       super(props);
-    }
+      this.state = {
+      question:"",
+      answer:"",
+      inputValue:""
+    };
+    this.updateInputValue=this.updateInputValue.bind(this);
+  }
+
+
 
   componentWillMount() {
-    console.log(this.props.deckTitle);
+    this.generateQuestionText(this.props.deckTitle);
   }
 
 
-  generateQuestion(id) {
-    return id
-    // return firebase.database().ref('User1/'+id).once('value').then(snapshot => {
-    //   return snapshot.val();
-    // })
+  generateQuestionText(id) {
+      return firebase.database().ref('User1/'+this.props.deckTitle).once('value').then(snapshot => {
+      let data = snapshot.val();
+      let random_question_number=Math.floor(Math.random() * data.length); 
+      console.log(data[random_question_number].question, data[random_question_number].answer);
+      this.setState({question: data[random_question_number].question});
+      this.setState({answer: data[random_question_number].answer});
+    })
 
   }
 
+  checkAnswer() {
+    if (this.state.inputValue==this.state.answer) {
+      console.log("You got it right!")
+      this.generateQuestionText(this.props.deckTitle);
+    }
+    else {
+      console.log("No!");
+    }
+  }
 
+
+  updateInputValue(evt) {
+    this.setState({
+      inputValue: evt.target.value
+    });
+  }
 
   render() {
     return (
       <Jumbotron style={{width:"100%", fontStyle:"Karla", justifyContent: 'center'}}>
-        <p style={{textAlign: "center",fontWeight:"bold"}} >Question: What is the capital of Illinois?</p>
+        <p style={{textAlign: "center",fontWeight:"bold"}} >{this.state.question}</p>
       <div>
         <InputGroup style={{width:"100%"}}>
-          <Input placeholder="Input answer here" />
-          <Button color="primary" >Submit</Button>
+          <Input value={this.state.inputValue} onChange={this.updateInputValue} placeholder="Input answer here" />
+          <Button onClick = {() => {this.checkAnswer();}} color="primary" >Submit</Button>
         </InputGroup>
       </div>
       <div className="container text-center">
