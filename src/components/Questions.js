@@ -19,7 +19,8 @@ class Questions extends Component {
       this.state = {
       question:"",
       answer:"",
-      inputValue:""
+      inputValue:"",
+      message:"Start practicing here:"
     };
     this.updateInputValue=this.updateInputValue.bind(this);
   }
@@ -45,10 +46,12 @@ class Questions extends Component {
   checkAnswer() {
     if (this.state.inputValue==this.state.answer) {
       console.log("You got it right!")
+      this.setState({message: "Great work! Here's another:"})
       this.generateQuestionText(this.props.deckTitle);
     }
     else {
       console.log("No!");
+      this.setState({message: "Sorry, try again!"})
     }
   }
 
@@ -62,6 +65,7 @@ class Questions extends Component {
   render() {
     return (
       <Jumbotron style={{width:"100%", fontStyle:"Karla", justifyContent: 'center'}}>
+        <h3 style={{textAlign:"center"}}>{this.state.message}</h3>
         <p style={{textAlign: "center",fontWeight:"bold"}} >{this.state.question}</p>
       <div>
         <InputGroup style={{width:"100%"}}>
