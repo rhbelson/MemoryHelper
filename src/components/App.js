@@ -344,9 +344,10 @@ createDeck(){
             </div>
 
             <div>
+
               <Modal isOpen={this.state.toggleQuestions} toggle={this.toggleQuestions}>
                 <ModalHeader toggle={this.toggleQuestions}>Questions</ModalHeader>
-                <Questions questionDrawCard = {() => this.drawCard()}/>
+                <Questions deckTitle={this.state.deckTitle} questionDrawCard = {() => this.drawCard()}/>
               </Modal>
             </div>
 

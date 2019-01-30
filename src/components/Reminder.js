@@ -5,6 +5,7 @@ import { addReminder, deleteReminder, deleteAllReminders } from '../actions';
 import moment from 'moment';
 import { Row, Col} from 'reactstrap';
 import {MdEdit} from 'react-icons/md';
+import firebase from 'firebase';
 
 
 class Reminder extends Component {

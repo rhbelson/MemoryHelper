@@ -13,9 +13,25 @@ WebFont.load({
   }
 });
 
-class Question extends Component {
-  
+class Questions extends Component {
+  constructor(props){
+      super(props);
+    }
  
+  componentWillMount() {
+    console.log(this.generateQuestion(this.props.deckTitle));
+  }
+
+
+  generateQuestion(id) {
+    return id
+    // return firebase.database().ref('User1/'+id).once('value').then(snapshot => {
+    //   return snapshot.val();
+    // })
+
+  }
+
+
 
   render() {
     return (
@@ -39,4 +55,4 @@ class Question extends Component {
 
 
 
-export default Question;
+export default Questions;
