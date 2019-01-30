@@ -17,9 +17,9 @@ class Questions extends Component {
   constructor(props){
       super(props);
     }
- 
+
   componentWillMount() {
-    console.log(this.generateQuestion(this.props.deckTitle));
+    console.log(this.props.deckTitle);
   }
 
 

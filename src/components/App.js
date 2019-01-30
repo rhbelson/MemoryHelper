@@ -184,6 +184,10 @@ createDeck(){
     this.setState({toggleQuestions: !this.state.toggleQuestions})
   }
 
+  toggleQuestionsWithTitle(title){
+    this.setState({toggleQuestions: !this.state.toggleQuestions, currentDeck: title})
+  }
+
   renderClearButton() {
     const { reminders } = this.props;
     if(reminders.length !== 0){
@@ -213,8 +217,9 @@ createDeck(){
         {
           reminders.map((reminder, i) => {
             return (
-              <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center',marginTop:'2%'}} key={i}>
-                <Reminder toggleQuestions = {() => this.setState({toggleQuestions: !this.state.toggleQuestions})}
+              <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center', marginTop:'2%'}} key={i}>
+                <Reminder toggleQuestions = {(title) => this.setState({toggleQuestions: !this.state.toggleQuestions, currentDeck: title})}
+                          setTitle = {(title) => this.setState({currentDeck: title})}
                           del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
               </Row>
             )
@@ -347,7 +352,7 @@ createDeck(){
 
               <Modal isOpen={this.state.toggleQuestions} toggle={this.toggleQuestions}>
                 <ModalHeader toggle={this.toggleQuestions}>Questions</ModalHeader>
-                <Questions deckTitle={this.state.deckTitle} questionDrawCard = {() => this.drawCard()}/>
+                <Questions deckTitle={this.state.currentDeck} questionDrawCard = {() => this.drawCard()}/>
               </Modal>
             </div>
 
