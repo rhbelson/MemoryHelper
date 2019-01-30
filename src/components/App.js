@@ -76,15 +76,15 @@ createDeck(){
 
 //Adds card data to database
   addCard(){
-    let deckTitle = this.state.currentDeck;
-    let db = firebase.database().ref('/User1/' + deckTitle);
-
-    let cardID = this.state.cardCount + 1;
-    this.state.contents.map((row, i) => {
-      db = firebase.database().ref(`/User1/${deckTitle}/${i}`);
-      db.update({question: row[0], answer: row[1]})
-      })
-
+    // let deckTitle = this.state.currentDeck;
+    // let db = firebase.database().ref('/User1/' + deckTitle);
+    //
+    // let cardID = this.state.cardCount + 1;
+    // this.state.contents.map((row, i) => {
+    //   db = firebase.database().ref(`/User1/${deckTitle}/${i}`);
+    //   db.update({question: row[0], answer: row[1]})
+    //   })
+    return
   }
 
   drawCard(){
@@ -334,7 +334,7 @@ createDeck(){
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>Make Your FlashCards!</ModalHeader>
                 <ModalBody>
-                  <MyForm updateContents = {this.updateContents}/>
+                  <MyForm deckTitle = {this.state.currentDeck} updateContents = {this.updateContents}/>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={() => {this.toggle(); this.addCard()}}>Confirm</Button>{' '}

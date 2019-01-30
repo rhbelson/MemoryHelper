@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Row, Button, Col, Container, Form, FormGroup, Label, Input, FormText } from 'reactstrap'
 import {MdDone, MdDelete} from 'react-icons/md';
+import firebase from 'firebase';
 
 class MyForm extends Component {
   constructor(props){
@@ -15,6 +16,7 @@ class MyForm extends Component {
       content: [],
       newVocab: '',
       newAnswer: '',
+      count: 0
     };
 
     this.addRow = this.addRow.bind(this);
@@ -23,10 +25,17 @@ class MyForm extends Component {
 addRow() {
   const state = this.state
   const props = this.props
+
+
+
   if(this.state.newLast!= '' && this.state.newAnswer != ''){
+    let db = firebase.database().ref(`/User1/${props.deckTitle}/${state.count}`);
+    db.update({question: this.state.newVocab, answer: this.state.newAnswer})
+
     this.setState({content: [...state.content, [state.newVocab, state.newAnswer]],
                    newVocab: '',
-                   newAnswer: ''}, props.updateContents(state.content))
+                   count: state.count + 1,
+                   newAnswer: ''})
   }
 }
 
