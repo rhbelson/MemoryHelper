@@ -45,7 +45,7 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      text: 'hi',
+      text: '',
       dueDate: '',
       phone: '',
       modal: false,
@@ -113,13 +113,16 @@ class App extends Component {
 
   sendSms = () => {
         console.log('entered sendSMS');
+
+        let times = this.scheduleTimes(this.state.dueDate);
+
         fetch('/api/messages', {
             method: 'POST',
             headers: {
                 Accept: 'application/JSON',
                 'Content-Type': 'application/JSON'
             },
-            body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": this.state.dueDate})
+            body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": times})
             // body used for testing:
             // body: JSON.stringify({to: "7576606447", "message": `message at ${new Date().toLocaleTimeString()}`, "ts": this.state.dueDate})
 
@@ -127,6 +130,7 @@ class App extends Component {
             .then(resp => {
                 console.log(resp)
             })
+
   };
 
 
@@ -146,22 +150,17 @@ class App extends Component {
   }
 
   //Lyon to write function that takes in due date of task as input, and outputs 4 Datetime objects for times to schedule Twilio messages
-  scheduleTimes(givendate) {
-    var date = new Date();
-    var given = new Date(givendate);
-    var timeleft = given.getTime() - date.getTime();
-    var remindertimes = [timeleft / 16];
-    remindertimes.push(timeleft / 8);
-    remindertimes.push(timeleft / 4);
-    remindertimes.push(timeleft / 2);
-    //var wantedtime = givendate.getTime();
-    return remindertimes;
-
-  }
-
-//Function that schedules Twilio messages given output determined by scheduleTimes function (calls sendSms function)
-  scheduleMessages() {
-    //To Do
+  scheduleTimes(givenDate) {
+    let currentTime = new Date();
+    let given = new Date(givenDate);
+    let timeLeft = given.getTime() - currentTime.getTime();
+    let reminderTimes = [];
+    reminderTimes.push(currentTime.getTime());
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 16));
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 8));
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 4));
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 2));
+    return reminderTimes;
   }
 
   addReminder() {

@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const path = require('path');
 
 const express_app = express();
+// twilio client init
 const client = require('twilio')('ACcb2bbf1ec4e8cd9b85fc7e4420f2ee3e', '081193202595c927ed1e6ce596b3d47c');
 
 express_app.use(bodyParser.urlencoded({ extended: false }));
@@ -13,6 +14,7 @@ express_app.use(bodyParser.json());
 express_app.use(express.static(path.join(__dirname, 'build')));
 
 let scheduledTasks = new Set();
+let allTasks = {};
 
 express_app.get('*', function(req, res){
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
@@ -21,81 +23,70 @@ express_app.get('*', function(req, res){
 express_app.post('/api/messages', async (req, res) => {
     console.log('Received new message request.');
     res.header('Content-Type', 'application/json');
-    console.log(req.body);
+    const textData = req.body;
+    console.log(textData);
+    console.log(Date.now());
     let messageCounter = 0;
+    // schedule texts for all timestamps following curve
     req.body.ts.forEach(time => {
-        scheduleText(req.body, time);
+        // add 10 seconds to account for request/scheduling task offset
+        scheduleText(textData, time + 10000);
         messageCounter++;
         console.log(scheduledTasks);
     });
+    //
+    console.log(`${allTasks.length} tasks in total are scheduled`);
     console.log({'success': true, 'messagesScheduled': messageCounter});
+    // return texts scheduled
     return res.send({'success': true, 'messagesScheduled': messageCounter});
 });
 
-const scheduleText = function(body, time) {
+const scheduleText = async function(body, time) {
 
+    const messageTime = new Date(time);
     const task_id = crypto.randomBytes(20).toString('hex');
     scheduledTasks.add(task_id);
 
-    const scheduled_task = scheduler.scheduleJob(time, function () {
-        if (scheduledTasks.has(task_id)) {
-            // send text message with twilo service
-            client.messages
-                .create({
-                    from: "+17574186902",
-                    to: body.to,
-                    body: body.message
-                })
-                .then(() => {
-                    console.log(`Message to ${body.to} successfully sent.`);
-                    console.log('Scheduled task canceled.');
-                    scheduled_task.cancel();
-                })
-                .catch(err => {
-                    console.log('hit error');
-                    console.log(err);
-                });
-        } else {
-            console.log('Message already sent');
-        }
+    // run job on specific node cluster
+    if (cluster.isMaster) {
+        // schedule text message send
+        allTasks[task_id] = scheduler.scheduleJob(messageTime, function () {
+            if (scheduledTasks.has(task_id)) {
+                console.log('entered task');
+                // send text message with twilo service
+                client.messages
+                    .create({
+                        from: "+17574186902",
+                        to: body.to,
+                        body: body.message
+                    })
+                    .then(() => {
+                        console.log(`Message to ${body.to} successfully sent.`);
+                        console.log('Scheduled task canceled.');
+                        // cancel task so it doesn't double send (library bug)
+                        allTasks[task_id].cancel();
+                        // delete task from task objects
+                        delete allTasks[task_id]
+                    })
+                    .catch(err => {
+                        console.log('hit error');
+                        console.log(err);
+                    });
+            } else {
+                console.log('Message already sent');
+            }
 
-    });
-    console.log('Text scheduled.');
-    return JSON.stringify({success: true});
-
-    // // run job on specific node cluster
-    // if (cluster.isMaster) {
-    //     // schedule text message send
-    //     const scheduled_task = scheduler.scheduleJob(time, function () {
-    //         if (scheduledTasks.has(task_id)) {
-    //             // send text message with twilo service
-    //             client.messages
-    //                 .create({
-    //                     from: "+17574186902",
-    //                     to: body.to,
-    //                     body: body.message
-    //                 })
-    //                 .then(() => {
-    //                     console.log(`Message to ${body.to} successfully sent.`);
-    //                     console.log('Scheduled task canceled.');
-    //                     scheduled_task.cancel();
-    //                 })
-    //                 .catch(err => {
-    //                     console.log('hit error');
-    //                     console.log(err);
-    //                 });
-    //         } else {
-    //             console.log('Message already sent');
-    //         }
-    //
-    //     });
-    //     console.log('Text scheduled.');
-    //     return JSON.stringify({success: true});
-    // }
+        }.bind(null, messageTime, task_id));
+        console.log(`Text scheduled at ${messageTime.toLocaleString()}.`);
+        return JSON.stringify({success: true});
+    }
 };
 
+// sever port is 3002
 express_app.portNumber = 3002;
+
 function startServer(port) {
+    // function to start server and cycle through ports if 3002 isn't available
     express_app.portNumber = port;
     express_app.listen(port, () => {
         console.log("server is running on port: " + express_app.portNumber);
