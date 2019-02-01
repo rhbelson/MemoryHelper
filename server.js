@@ -88,7 +88,7 @@ express_app.portNumber = 3002;
 function startServer(port) {
     // function to start server and cycle through ports if 3002 isn't available
     express_app.portNumber = port;
-    express_app.listen(port, () => {
+    express_app.listen(process.env.PORT || port, () => {
         console.log("server is running on port: " + express_app.portNumber);
     }).on('error', function (err) {
         if(err.errno === 'EADDRINUSE') {
