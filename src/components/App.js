@@ -9,7 +9,6 @@ import { Row,
          Container,
          Modal, ModalHeader, ModalFooter, ModalBody,
          Navbar, NavbarBrand, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { toast } from 'react-toastify';
 import Reminder from './Reminder'
 import Questions from './Questions'
 import MyForm from './Form'
@@ -124,8 +123,6 @@ class App extends Component {
                 'Content-Type': 'application/JSON'
             },
             body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": times})
-            // body used for testing:
-            // body: JSON.stringify({to: "7576606447", "message": `message at ${new Date().toLocaleTimeString()}`, "ts": this.state.dueDate})
 
         })
             .then(resp => {
@@ -204,7 +201,7 @@ class App extends Component {
 
   renderReminders() {
     const { reminders } = this.props;
-    const state = this.state
+    const state = this.state;
     return (
       <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
       <Col style = {{alignItems: 'center'}}>
