@@ -9,17 +9,19 @@ import { Row,
          Container,
          Modal, ModalHeader, ModalFooter, ModalBody,
          Navbar, NavbarBrand, NavItem, Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap'
-import { toast } from 'react-toastify';
 import Reminder from './Reminder'
 import Questions from './Questions'
 import MyForm from './Form'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import WebFont from 'webfontloader';
 import firebase from 'firebase';
+import {addCard} from './Questions'
 import './card.css';
 import { MdAlarm } from 'react-icons/md';
 import Tilt from 'react-tilt';
 import StudyPic from './study.png';
+import appLogo from './memhelp_logo.png';
+import moment from "moment/moment";
 
 
 WebFont.load({
@@ -45,57 +47,69 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-      text: 'hi',
+      text: '',
       dueDate: '',
       phone: '',
       modal: false,
       errorModal: false,
+      Tutorial: false,
       points: 0,
       dropdownOpen:false,
       selectedInterval: 'Ebbinghaus',
       toggleQuestions: false,
-      count: 0,
+      cardCount: 0,
+      currentDeck: '',
+      contents: [],
       reminderCount: 0,
-      newReminderForm: true
+      newReminderForm: true,
+      count: 0
     };
 
     this.toggle = this.toggle.bind(this);
     this.toggleDropdown=this.toggleDropdown.bind(this);
     this.toggleErrorModal = this.toggleErrorModal.bind(this);
-    this.toggleQuestions = this.toggleQuestions.bind(this)
+    this.toggleQuestions = this.toggleQuestions.bind(this);
+    this.toggleTutorial = this.toggleTutorial.bind(this);
+    this.toggleQuestions = this.toggleQuestions.bind(this);
+    this.updateContents = this.updateContents.bind(this);
   }
-
-  // componentWillMount(){
-  //   let db = firebase.database().ref('User1');
-  //   db.on('value', (snapshot) => {this.setState({reminderCount: snapshot.val})})
-  // }
 
   //Adds card data to database
-  addCard(){
-    let  db = firebase.database().ref(`User1/${this.state.text}`);
-    db.push({
-      id: this.count,
-      vocab: document.getElementById("Vocab").value,
-      definition: document.getElementById("Definition").value
-    });
+  addCard() {
+      // var db = firebase.database().ref("Cards/");
+      // db.push({
+      //     id: this.count,
+      //     vocab: document.getElementById("Vocab").value,
+      //     definition: document.getElementById("Definition").value
+      // })
+      return
+  };
 
-    this.setState({count: this.state.count + 1})
+//creates a deck of cards, titled with the text in Study Set Title
+  createDeck(){
+    let deckTitle = this.state.text;
+    this.setState({currentDeck: deckTitle});
+  };
 
-  }
 
 
-   //grabs a random card's Vocab Value from database
-  //right now just draws a specific card
   drawCard(){
 
-  const rand = Math.floor(Math.random() * (this.count - 0 + 1)) + 0;
-   var db = firebase.database().ref("Cards/");
+   //const rand = Math.floor(Math.random() * (this.state.count + 1));
+   var db = firebase.database().ref("/User1/" + this.state.currentDeck);
+   console.log("rand is");
+   //console.log(rand);
 
-   db.on("value", function(snapshot) {
-   var myCard = snapshot.val().vocab;
+   db.on("value", (snapshot)=>{
+
+    //snapshot.val() is entire cards sec of DB
+   let myCard = snapshot.val();
+   console.log("in draw card")
    console.log(myCard);
     });
   }
+
+
 
   toggle() {
       this.setState({modal: !this.state.modal});
@@ -105,22 +119,28 @@ class App extends Component {
       this.setState({errorModal: !this.state.errorModal});
     }
 
+  toggleTutorial() {
+      this.setState({Tutorial: !this.state.Tutorial});
+    }
+
   sendSms = () => {
         console.log('entered sendSMS');
+
+        let times = this.scheduleTimes(this.state.dueDate);
+
         fetch('/api/messages', {
             method: 'POST',
             headers: {
                 Accept: 'application/JSON',
                 'Content-Type': 'application/JSON'
             },
-            body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": this.state.dueDate})
-            // body used for testing:
-            // body: JSON.stringify({to: "7576606447", "message": `message at ${new Date().toLocaleTimeString()}`, "ts": this.state.dueDate})
+            body: JSON.stringify({to: this.state.phone, "message": this.state.text, "ts": times})
 
         })
             .then(resp => {
                 console.log(resp)
             })
+
   };
 
 
@@ -140,22 +160,17 @@ class App extends Component {
   }
 
   //Lyon to write function that takes in due date of task as input, and outputs 4 Datetime objects for times to schedule Twilio messages
-  scheduleTimes(givendate) {
-    var date = new Date();
-    var given = new Date(givendate);
-    var timeleft = given.getTime() - date.getTime();
-    var remindertimes = [timeleft / 16];
-    remindertimes.push(timeleft / 8);
-    remindertimes.push(timeleft / 4);
-    remindertimes.push(timeleft / 2);
-    //var wantedtime = givendate.getTime();
-    return remindertimes;
-
-  }
-
-//Function that schedules Twilio messages given output determined by scheduleTimes function (calls sendSms function)
-  scheduleMessages() {
-    //To Do
+  scheduleTimes(givenDate) {
+    let currentTime = new Date();
+    let given = new Date(givenDate);
+    let timeLeft = given.getTime() - currentTime.getTime();
+    let reminderTimes = [];
+    reminderTimes.push(currentTime.getTime());
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 16));
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 8));
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 4));
+    reminderTimes.push(currentTime.getTime() + (timeLeft / 2));
+    return reminderTimes;
   }
 
   addReminder() {
@@ -176,13 +191,17 @@ class App extends Component {
     this.setState({toggleQuestions: !this.state.toggleQuestions})
   }
 
+  toggleQuestionsWithTitle(title){
+    this.setState({toggleQuestions: !this.state.toggleQuestions, currentDeck: title})
+  }
+
   renderClearButton() {
     const { reminders } = this.props;
     if(reminders.length !== 0){
       return(
         <Button
           style ={{marginTop: '10px',fontFamily:'Karla', border: '0px', backgroundColor: '#f96571'}}
-          onClick = {() => this.deleteAllReminders()}>
+          onClick = {() => {this.deleteAllReminders(); this.drawCard()}}>
           Clear Reminders
         </Button>
       );
@@ -198,15 +217,16 @@ class App extends Component {
 
   renderReminders() {
     const { reminders } = this.props;
-    const state = this.state
+    const state = this.state;
     return (
       <Container style = {{display: 'flex',  justifyContent:'center', alignItems: 'center'}}>
       <Col style = {{alignItems: 'center'}}>
         {
           reminders.map((reminder, i) => {
             return (
-              <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center',marginTop:'2%'}} key={i}>
-                <Reminder toggleQuestions = {() => this.setState({toggleQuestions: !this.state.toggleQuestions})}
+              <Row style = {{display: 'flex',  justifyContent:'center', alignItems: 'center', marginTop:'2%'}} key={i}>
+                <Reminder toggleQuestions = {(title) => this.setState({toggleQuestions: !this.state.toggleQuestions, currentDeck: title})}
+                          setTitle = {(title) => this.setState({currentDeck: title})}
                           del = {() => this.deleteReminder(reminder.id)} remind = {reminder} />
               </Row>
             )
@@ -236,36 +256,42 @@ class App extends Component {
     )
   }
 
+  updateContents(stuff){
+    this.setState({contents: stuff})
+  }
+
 
   render() {
-    const inputone = <input
+    const setTitleInput = <input
       style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
       className="form-control"
       placeholder="Study Set Title"
       value = {this.state.text}
       onChange = {event => this.setState({text: event.target.value})}
     />
-    const inputtwo = <input
+    const phoneNumberInput = <input
       style ={{height: '35px', borderRadius: '10px', textAlign: 'center'}}
       className="form-control"
       placeholder="Your Phone Number"
       value = {this.state.phone}
       onChange = {event => this.setState({phone: event.target.value})}
-    />
-    const inputthree = <input
+    />;
+
+    const dueDateInput = <input
       style ={{height: '35px', borderRadius: '10px'}}
       className="form-control"
       type="datetime-local"
       placeholder="Due Date"
       value={this.state.dueDate}
       onChange = {event => this.setState({dueDate: event.target.value})}
-    />
+    />;
     const addButton = <Button
       onClick = {() => {
         if(this.state.text !== '' && this.state.phone !== '' && this.state.dueDate !== ''){
           this.toggle(); this.sendSms(); this.addReminder()
         }
         else {this.toggleErrorModal()}
+        this.createDeck()
       }}
       style= {{alignItems: 'center', marginTop: '5px', marginLeft: '5px',border: '0px', backgroundColor: '#5a9506'}}
     >
@@ -285,12 +311,17 @@ class App extends Component {
     </Dropdown>
 
     return (
-      <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
-      <Navbar color="dark" light expand="md">
-          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
-          <NavItem style = {{listStyleType: 'none', color:"#ffffff", fontFamily:"Titillium Web", fontSize: '18px'}}>
-            <img src={require(`../images/star.jpg`)} width={30} style={{marginRight: '10px'}} />
-             {this.state.points} Points!
+      <div style={{backgroundColor:"#94E8B4", height: '100vh'}}>
+      <Navbar expand="md">
+          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">
+
+              <img src={appLogo} alt="logo" style={{width:"150px", height:"45px"}}/>
+
+          </NavbarBrand>
+
+          <NavItem style = {{listStyleType: 'none', color:"#153243", fontFamily:"Titillium Web", fontSize: '16px', fontWeight:'bold'}}>
+              ⭐ {this.state.points} Points!
+             <Button style = {{marginLeft: '15px', backgroundColor:"#153243"}} onClick = {() => {this.toggleTutorial()}}> ? </Button>
           </NavItem>
       </Navbar>
 
@@ -301,21 +332,22 @@ class App extends Component {
 
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-                {this.state.newReminderForm ? <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
-                                                      onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
-                                                      Show Reminders </Button> :
-                                              <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
-                                                      onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
-                                                      Add New Reminder </Button>}
-                {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div> : null}
-                {this.state.newReminderForm ? null : <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Click on a Reminder to Study! </div>}
-                  {this.state.newReminderForm ? inputone : null}
-                  {this.state.newReminderForm ? inputtwo : null}
-                  {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
-                  {this.state.newReminderForm ? inputthree : null}
-                  <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
-                  {this.state.newReminderForm ? dropdown : null}
-                  {this.state.newReminderForm ? addButton : null}
+              {this.state.newReminderForm ? <Button style = {{marginBottom: '25px', marginTop: '5px',width: '300px'}}
+                                                    onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
+                      Show Reminders </Button> :
+                  <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
+                          onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
+                      Hide Reminders </Button>}
+
+            {this.state.newReminderForm ? <h4 style = {{textAlign: 'center', fontWeight: 'bold', color:"#153243"}}> Create a Study Set: </h4> : null}
+            {this.state.newReminderForm ? null : <h5 style = {{textAlign: 'center', fontWeight: 'bold', marginTop:"15px", color:"#153243"}}> Click on a Reminder to Study! </h5>}
+            {this.state.newReminderForm ? setTitleInput : null}
+            {this.state.newReminderForm ? phoneNumberInput : null}
+            {this.state.newReminderForm ? <h4 style = {{textAlign: 'center', fontWeight: 'bold', marginTop:"15px", color:"#153243"}}> Enter Due Date: </h4> : null}
+            {this.state.newReminderForm ? dueDateInput : null}
+            <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right', marginTop: '15px'}}>
+            {this.state.newReminderForm ? dropdown : null}
+            {this.state.newReminderForm ? addButton : null}
 
 
             <div>
@@ -328,10 +360,29 @@ class App extends Component {
             </div>
 
             <div>
+              <Modal isOpen={this.state.Tutorial} toggle={this.toggleTutorial}>
+                <ModalHeader toggle={this.toggleTutorial}>Welcome to MemoryHelper!</ModalHeader>
+                <ModalBody>
+                  <p>This is our humble studying reminder app!</p>
+                  <p>The purpose of this app is to remind you to study, as well as create a means for you to do so.</p>
+                  <p>To begin, simply enter the subject you're studying for as well as your phone number and the due date,
+                    and then create flashcards to help you remember content.
+                      Our app will then send you periodic reminders to study based on your due date and the reminder interval you select.</p>
+                  <p>The Ebbinghaus option is a scientific curve designed to send you reminders at intervals that will
+                    maximize remembrance!</p>
+                  <p>That's really it, please love us!!!</p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button color="primary" onClick={this.toggleTutorial}>Got it!</Button>{' '}
+                </ModalFooter>
+              </Modal>
+            </div>
+
+            <div>
               <Modal isOpen={this.state.modal} toggle={this.toggle}>
                 <ModalHeader toggle={this.toggle}>Make Your FlashCards!</ModalHeader>
                 <ModalBody>
-                  <MyForm />
+                  <MyForm deckTitle = {this.state.currentDeck} updateContents = {this.updateContents}/>
                 </ModalBody>
                 <ModalFooter>
                   <Button color="primary" onClick={() => {this.toggle(); this.addCard()}}>Confirm</Button>{' '}
@@ -341,9 +392,10 @@ class App extends Component {
             </div>
 
             <div>
+
               <Modal isOpen={this.state.toggleQuestions} toggle={this.toggleQuestions}>
                 <ModalHeader toggle={this.toggleQuestions}>Questions</ModalHeader>
-                <Questions questionCount = {this.state.count} />
+                <Questions deckTitle={this.state.currentDeck} questionDrawCard = {() => this.drawCard()}/>
               </Modal>
             </div>
 
