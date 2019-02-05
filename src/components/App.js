@@ -20,6 +20,7 @@ import './card.css';
 import { MdAlarm } from 'react-icons/md';
 import Tilt from 'react-tilt';
 import StudyPic from './study.png';
+import appLogo from './memhelp_logo.png';
 
 
 WebFont.load({
@@ -290,13 +291,17 @@ class App extends Component {
     </Dropdown>
 
     return (
-      <div style={{backgroundColor:"#FCF6B1", height: '100vh'}}>
-      <Navbar color="dark" light expand="md">
-          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">MemoryHelper</NavbarBrand>
-          <NavItem style = {{listStyleType: 'none', color:"#ffffff", fontFamily:"Titillium Web", fontSize: '18px'}}>
-            <img src={require(`../images/star.jpg`)} width={30} style={{marginRight: '10px'}} />
-             {this.state.points} Points!
-             <Button style = {{marginLeft: '15px'}} onClick = {() => {this.toggleTutorial()}}> ? </Button>
+      <div style={{backgroundColor:"#94E8B4", height: '100vh'}}>
+      <Navbar expand="md">
+          <NavbarBrand style={{color:"#ffffff", fontFamily:"Titillium Web"}} href="/">
+
+              <img src={appLogo} alt="logo" style={{width:"200px", height:"60px"}}/>
+
+          </NavbarBrand>
+
+          <NavItem style = {{listStyleType: 'none', color:"#153243", fontFamily:"Titillium Web", fontSize: '16px', fontWeight:'bold'}}>
+              ⭐ {this.state.points} Points!
+             <Button style = {{marginLeft: '15px', backgroundColor:"#153243"}} onClick = {() => {this.toggleTutorial()}}> ? </Button>
           </NavItem>
       </Navbar>
 
@@ -307,19 +312,19 @@ class App extends Component {
 
         <div className="form-inline reminder-form" style={{fontFamily:"Karla",color:"black"}}>
           <div className="form-group">
-                {this.state.newReminderForm ? <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
+                {this.state.newReminderForm ? <Button style = {{marginBottom: '25px', marginTop: '5px',width: '300px'}}
                                                       onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
                                                       Show Reminders </Button> :
                                               <Button style = {{marginBottom: '10px', marginTop: '5px',width: '300px'}}
                                                       onClick = {() => this.setState({newReminderForm: !this.state.newReminderForm})}>
                                                       Add New Reminder </Button>}
-                {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Create a Study Set! </div> : null}
+                {this.state.newReminderForm ? <h4 style = {{textAlign: 'center', fontWeight: 'bold', color:"#153243"}}> Create a Study Set: </h4> : null}
                 {this.state.newReminderForm ? null : <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Click on a Reminder to Study! </div>}
                   {this.state.newReminderForm ? inputone : null}
                   {this.state.newReminderForm ? inputtwo : null}
-                  {this.state.newReminderForm ? <div style = {{textAlign: 'center', fontWeight: 'bold'}}> Enter Due Date: </div> : null}
+                  {this.state.newReminderForm ? <h4 style = {{textAlign: 'center', fontWeight: 'bold', marginTop:"15px", color:"#153243"}}> Enter Due Date: </h4> : null}
                   {this.state.newReminderForm ? inputthree : null}
-                  <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right'}}>
+                  <div style = {{display: 'flex',  justifyContent:'center', alignItems: 'right', marginTop:"15px"}}>
                   {this.state.newReminderForm ? dropdown : null}
                   {this.state.newReminderForm ? addButton : null}
 
