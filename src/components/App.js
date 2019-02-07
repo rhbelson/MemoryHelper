@@ -74,17 +74,6 @@ class App extends Component {
     this.updateContents = this.updateContents.bind(this);
   }
 
-  //Adds card data to database
-  addCard() {
-      // var db = firebase.database().ref("Cards/");
-      // db.push({
-      //     id: this.count,
-      //     vocab: document.getElementById("Vocab").value,
-      //     definition: document.getElementById("Definition").value
-      // })
-      return
-  };
-
 //creates a deck of cards, titled with the text in Study Set Title
   createDeck(){
     let deckTitle = this.state.text;
@@ -385,7 +374,7 @@ class App extends Component {
                   <MyForm deckTitle = {this.state.currentDeck} updateContents = {this.updateContents}/>
                 </ModalBody>
                 <ModalFooter>
-                  <Button color="primary" onClick={() => {this.toggle(); this.addCard()}}>Confirm</Button>{' '}
+                  <Button color="primary" onClick={() => {this.toggle();}}>Confirm</Button>{' '}
                   <Button color="secondary" onClick={this.toggle}>Cancel</Button>
                 </ModalFooter>
               </Modal>
