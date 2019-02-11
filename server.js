@@ -54,11 +54,12 @@ const scheduleText = async function(body, time) {
             if (scheduledTasks.has(task_id)) {
                 console.log('entered task');
                 // send text message with twilo service
+                let newMessage = body.message + '\n\nhttps://guarded-wildwood-37078.herokuapp.com/';
                 client.messages
                     .create({
                         from: "+17574186902",
                         to: body.to,
-                        body: body.message
+                        body: newMessage
                     })
                     .then(() => {
                         console.log(`Message to ${body.to} successfully sent.`);
