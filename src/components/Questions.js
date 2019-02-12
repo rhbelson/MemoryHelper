@@ -52,7 +52,7 @@ class Questions extends Component {
   }
 
   checkAnswer() {
-    if (this.state.inputValue==this.state.answer) {
+    if (this.state.inputValue.toLowerCase() === this.state.answer.toLowerCase()) {
       console.log("You got it right!")
       this.setState({message: "Great work! Here's another:"})
       this.generateQuestionText(this.props.deckTitle);
